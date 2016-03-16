@@ -1,0 +1,3 @@
+[submodule "python-metar"]
+	path = python-metar
+	url = https://github.com/tomp/python-metar.git

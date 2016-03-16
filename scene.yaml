@@ -1,0 +1,247 @@
+﻿# Author @patriciogv - 2016
+sources:
+    osm:
+        type: TopoJSON
+        url:  https://vector.mapzen.com/osm/all/{z}/{x}/{y}.topojson?api_key=vector-tiles-Nhm6Mkg
+
+textures:
+    stationsOverTime:
+        element:
+layers:
+    earth:
+        data: { source: osm }
+        draw:
+            polygons:
+                order: 1
+                color: [0.293, 0.300, 0.297]
+    water:
+        data: { source: osm }
+        draw:
+            polygons:
+                order: 2
+                color: [0.688, 0.695, 0.695]
+    landuse:
+        data: { source: osm }
+        draw:
+            area:
+                order: 3
+                color: [0.443, 0.434, 0.434]
+    roads:
+        data: { source: osm, layer: roads }
+        filter: { $zoom: {min: 7}, not: { highway: service, kind: rail } }
+        draw:
+            lines:
+                order: 7
+                color: [.7,.7,.7]
+                width: [[6,0px], [7,.25px], [10, .5px], [15, .75px], [17, 5m]]
+        highway:
+            filter: { kind: highway }
+            draw:
+                lines:
+                    order: 8
+                    color: [.8,.8,.8]#[1.000,0.897,0.058]
+                    width: [[1,0px], [6,.25px], [11, 2px], [14, 3px], [16, 4px], [17, 10m]]
+            link:
+                filter: { is_link: yes } # on- and off-ramps, etc
+                draw:
+                    lines:
+                        color: [.7,.7,.7]#[1.000,0.933,0.710]
+                        width: [[10,0px], [14, 3px], [16, 5px], [18, 10m]]
+                tunnel-link:
+                    filter: {is_tunnel: yes, $zoom: {min: 13} }
+                    draw:
+                        lines:
+                            color: [.5,.5,.5]#[0.805,0.748,0.557]
+            tunnel:
+                filter: {is_tunnel: yes, $zoom: {min: 13} }
+                draw:
+                    lines:
+                        order: 5
+                        color: [.5,.5,.5]#[0.805,0.748,0.557]
+        major_road:
+            filter: { kind: major_road }
+            draw:
+                lines:
+                    color: [[13, [.6,.6,.6]], [17, white]]
+                    width: [[1,0px], [6,.5px], [11,1px], [14, 2px], [16, 2.5px], [19, 8m]]
+                    primary:
+                        filter: { highway: primary }
+                        draw:
+                            lines:
+                                width: [[1,0px], [6,.5px], [11,1px], [11, 1.5px], [13, 2.5px], [16, 2.5px], [19, 8m]]
+                    secondary:
+                        filter: { highway: secondary }
+                        draw:
+                            lines:
+                                width: [[1,0px], [6,.5px], [11,1px], [13, 1.5px], [14, 2.5px], [16, 2.5px], [19, 8m]]
+                    tertiary:
+                        filter: { highway: tertiary }
+                        draw:
+                            lines:
+                                width: [[1,0px], [6,.5px], [11,1px], [13, .75px], [14, 2.5px], [16, 2.5px], [19, 8m]]
+        path:
+            filter: { kind: path }
+            draw:
+                lines:
+                    color: [0.8, 0.8, 0.8]
+                    width: [[14,.1px],[16,.5px], [17, 2m]]
+    station:
+        data: { source: stations }
+        draw:
+            wind:
+                collide: false
+                blend: overlay
+                blend_order: 1
+                size: 50
+                color: red
+                color: |
+                    function() {
+                        return [ ( Math.floor(feature.id/255))/255, (feature.id%255)/255, 0 ]; 
+                    }               
+cameras:
+    perspective:
+        type: perspective
+styles:
+    functions-aastep:
+        shaders:
+            extensions: OES_standard_derivatives
+            blocks:
+                global: |
+                    // AntiAliased Step function
+                    //=============================
+                    float aastep(float threshold, float value) {
+                        #ifdef TANGRAM_FRAGMENT_SHADER
+                            #ifdef TANGRAM_EXTENSION_OES_standard_derivatives
+                                float afwidth = length(vec2(dFdx(value), dFdy(value))) * 0.70710678118654757;
+                                return smoothstep(threshold-afwidth, threshold+afwidth, value);
+                            #else
+                                return step(threshold, value);
+                            #endif  
+                        #else
+                            return step(threshold, value);
+                        #endif
+                    }
+
+                    vec2 aastep(vec2 threshold, vec2 value) {
+                        return vec2(aastep(threshold.x, value.x),
+                                    aastep(threshold.y, value.y));
+                    }
+    functions-map:
+        shaders:
+            defines:
+                EPSILON: 0.0000001
+            blocks:
+                global: |
+                    float map (in float value, in float inputMin, in float inputMax, in float outputMin, in float outputMax, bool clamp) {
+                        if (abs(inputMin - inputMax) < EPSILON){
+                            return outputMin;
+                        } else {
+                            float outVal = ((value - inputMin) / (inputMax - inputMin) * (outputMax - outputMin) + outputMin);
+                        
+                            if( clamp ){
+                                if(outputMax < outputMin){
+                                    if( outVal < outputMax ) outVal = outputMax;
+                                    else if( outVal > outputMin ) outVal = outputMin;
+                                }else{
+                                    if( outVal > outputMax ) outVal = outputMax;
+                                    else if( outVal < outputMin ) outVal = outputMin;
+                                }
+                            }
+                            return outVal;
+                        }
+                    }
+                    float map (in float value, in float inputMin, in float inputMax, in float outputMin, in float outputMax) {
+                        return map(value, inputMin, inputMax, outputMin, outputMax, true); 
+                    }
+    geometry-matrices:
+        shaders:
+            defines:
+                PI: 3.141592653589793
+                TWO_PI: 6.28318530718
+            blocks:
+                global: |
+                    mat2 rotate2D (float angle) {
+                        return mat2(cos(angle),-sin(angle),
+                                    sin(angle),cos(angle));
+                    }
+    space-tile:
+        shaders:
+            blocks:
+                global: |
+                    // Variant to be add to both vertex and fragments shaders
+                    varying vec3 v_pos;
+                    //
+                    // Get the coordinates in tile space
+                    // ================================
+                    vec2 getTileCoords() {
+                        return fract(v_pos.xy);
+                    }
+
+                position: |
+                    // Normalize the attribute position of a vertex
+                    v_pos = modelPosition().xyz;
+    area:
+        base: polygons
+        mix: [geometry-matrices, functions-map, functions-aastep, space-tile]
+        blend: inlay
+        shaders: 
+            blocks: 
+                global: |
+                    float stripes(vec2 st, float width){
+                        st = rotate2D(0.78539816339)*st;
+                        st *= 29.7;
+                        return aastep(.5+width*0.5,abs(sin(st.y*3.14159265358)));
+                    }
+                filter: |
+                    vec2 st = getTileCoords();
+                    float pct = pow(1.-map(u_map_position.z,6.,20.,0.,1.),5.0);
+                    color.a = stripes(st,pct*1.4)*.5;
+    wind:
+        base: points
+        texcoords: true
+        animated: true
+        mix: [functions-aastep, geometry-matrices]
+        shaders:
+            uniforms:
+                u_data: stationsOverTime
+                u_param: [24,1702]
+            blocks: 
+                global: |
+                    float getIndex (vec2 encodedIndex) {
+                        return (encodedIndex.x*65025.+encodedIndex.y*255.)+.5;
+                    }
+                    
+                    float shape(vec2 st, int N){
+                        st = st *2.-1.;
+                        float a = atan(st.x,st.y)+PI;
+                        float r = TWO_PI/float(N);
+                        return cos(floor(.5+a/r)*r-a)*length(st);
+                    }
+
+                    vec3 getColor (vec2 st) {
+                        float texWidth = u_param.x;
+                        float texHeigth = u_param.y;
+                        st.y = 1.-st.y/texHeigth;
+                        return texture2D(u_data,vec2(st.x/texWidth,st.y)).rgb;
+                    }
+
+                filter: |
+                    float index = getIndex(color.st);
+                    color.rgb = getColor(vec2(mod(u_time,24.), index));
+
+                    float temp = .5+color.r*.5;
+                    float w_speed = color.g;
+                    float w_deg = color.b*PI;
+
+                    // Ignore wind blowing at 0.0 degrees. Probably is an error
+                    if (w_deg != 0.0 && color.r != color.g ) {
+                        vec2 st = v_texcoord.xy;
+                        st -= .5;
+                        st = rotate2D(w_deg)* st;
+                        st /= 1.+w_speed*10.;
+                        st += .5;
+                        float d = min(shape(st*vec2(1.5,1.)+vec2(-0.250,-0.07),3),shape(st*vec2(2.,1.)+vec2(-0.500,0.100),4));
+                        color = mix(vec4(1.,0.,0.,1.),vec4(0.,0.,1.,1.),temp*4.-2.5)*vec4(1.0-step(.2,d));
+                    } else {
+                        color.a = 0.0;
+                    }

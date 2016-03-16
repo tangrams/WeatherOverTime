@@ -1,0 +1,71 @@
+<!doctype html>
+<!--
+    Tangram: real-time WebGL rendering for OpenStreetMap
+    http://github.com/tangrams/tangram
+    http://mapzen.com
+-->
+<html lang="en-us">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+        <title>Tangram - OpenWeatherMap</title>
+
+        <!-- 3rd party libraries -->
+            <!-- Fetch -->
+            <script type="text/javascript" src="https://rawgit.com/github/fetch/master/fetch.js"></script>
+
+            <!-- Leaflet -->
+            <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v1.0.0-beta.2/leaflet.css" />
+            <script type="text/javascript" src="http://cdn.leafletjs.com/leaflet/v1.0.0-beta.2/leaflet.js"></script>
+
+            <!-- Leaflet URL hash -->
+            <script type="text/javascript" src="https://rawgit.com/mlevans/leaflet-hash/master/leaflet-hash.js"></script>
+
+            <!-- Tangram -->
+            <script type="text/javascript" src="https://mapzen.com/tangram/0.5/tangram.min.js"></script>
+
+            <!-- Data2Image -->
+            <script type="text/javascript" src="https://rawgit.com/tangrams/data2image/gh-pages/build/Data2Image.min.js"></script>
+        <!-- End of 3rd party libraries -->
+
+        <style>
+            body {
+                margin: 0px;
+                border: 0px;
+                padding: 0px;
+                overflow: hidden;
+            }
+
+            #map {
+                position: absolute;
+                height: 100%;
+                width: 100%;
+                margin: 0px;
+                padding: 0px;
+                z-index: 0;
+            }
+        </style>
+    </head>
+    <body>
+
+        <!-- The Map it self -->
+        <div id="map"></div>
+        <script src="main.js"></script>
+
+        <!-- Adding a script block to post message to the parent container (think iframed demos) -->
+        <script type="text/javascript">
+            window.addEventListener("hashchange",function(){parent.postMessage(window.location.hash, "*")});
+        </script>
+
+        <!-- Mapzen map UI -->
+        <script src='https://mapzen.com/common/ui/mapzen-ui.min.js'></script>
+        <script>
+            MPZN.bug({
+                name: 'Tangram',
+                tweet: 'Check this tutorial about Tangram & 3er Party API cc @mapzen!',
+                repo: 'https://github.com/tangrams/OWM'
+            });
+        </script>
+    </body>
+</html>
