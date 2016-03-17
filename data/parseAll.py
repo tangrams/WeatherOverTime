@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 import glob, os, json
-from common import getReliableStations, getTotalHours, getHourlyString, makeGeoJSON, makeDataImage
+from common import getReliableStations, getTotalHours, getHourlyString, saveJSON, makeGeoJSON, makeDataImage
 
 # All daily records
 files = sorted(glob.glob('????-??-??-*.json'), key=os.path.getmtime)
@@ -13,6 +13,8 @@ stations = getReliableStations(files)
 stationsList = makeGeoJSON(stations,'station')
 
 hoursList = getTotalHours(files)
+
+saveJSON(hoursList,"hours.json")
 
 database = {}
 for filename in files:
@@ -30,6 +32,9 @@ for filename in files:
                     database[station][hour]['wind_deg'] = data[station]['cycles'][cycle]['wind_deg']
 
 makeDataImage(database, hoursList, stationsList)
+
+os.system('git add data/*.json')
+os.system('git commit -am "' + str(datetime.date.today()) + '-' + str(datetime.datetime.now().hour) + '"')
 
 
 

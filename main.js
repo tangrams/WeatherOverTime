@@ -1,3 +1,6 @@
+var hours = [];
+var time = 0;
+
 // Init tangram
 map = (function () {
     'use strict';
@@ -35,4 +38,53 @@ function init() {
     // Add Tangram `layer` to Leaflet `map`
     layer.addTo(map);
 
+    fetch('data/hours.json')
+        .then(function (response) {
+            // If we get a positive response...
+            if (response.status !== 200) {
+                console.log('Error getting data. Status code: ' + response.status);
+                return;
+            }
+            // ... parse it to JSON
+            return response.json();
+        })
+        .then(function(json) {
+            hours = json;
+
+            var timeSlider = document.getElementById('time');
+            var slider = noUiSlider.create(timeSlider, {
+                start: 2,
+                step: 0.04,
+                range: {
+                        'min': 0,
+                        'max': hours.length
+                    }
+            });
+            window.timeSlider = timeSlider;
+
+            timeSlider.noUiSlider.on('update', function( values, handle ) {
+                scene.styles.wind.shaders.uniforms.u_offset = parseFloat(values);
+            });
+        })
+        //  .catch(function(error) {
+        //     console.log('Error parsing the JSON', error);
+        // });
+
+    setTimeout(function(){
+        var downloadingImage = new Image();
+        downloadingImage.onload = function(){
+            console.log(this.width,this.height);
+            scene.styles.wind.shaders.uniforms.u_param = [this.width,this.height];
+        };
+        downloadingImage.src = 'data/data.png'
+        window.setInterval('update()', 100);
+    }, 2000);
+}
+
+function update() {
+    time += 0.05;
+    if (time > hours.length) {
+        time = 0;
+    }
+    window.timeSlider.noUiSlider.set(time);
 }

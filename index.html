@@ -24,6 +24,11 @@
 
             <!-- Tangram -->
             <script type="text/javascript" src="https://mapzen.com/tangram/0.5/tangram.min.js"></script>
+            <!-- <script src="http://localhost:8000/dist/tangram.debug.js"></script> -->
+
+            <!-- noUIslider -->
+            <link href="lib/noUiSlider/nouislider.min.css" rel="stylesheet">
+            <script src="lib/noUiSlider/nouislider.min.js"></script>
         <!-- End of 3rd party libraries -->
 
         <style>
@@ -42,12 +47,23 @@
                 padding: 0px;
                 z-index: 0;
             }
+
+            #time {
+                position: absolute;
+                width: 90%;
+                bottom: 100px;
+                left: 50%;
+                transform: translate(-50%,0);
+                z-index: 100;
+            }
         </style>
     </head>
     <body>
 
         <!-- The Map it self -->
         <div id="map"></div>
+        <div id="time"></div>
+
         <script src="main.js"></script>
 
         <!-- Adding a script block to post message to the parent container (think iframed demos) -->

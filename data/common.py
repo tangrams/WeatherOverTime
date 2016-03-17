@@ -29,6 +29,12 @@ def getReliableStations (files):
         index = index + 1;
     return stations
 
+def saveJSON (data, filename):
+    # Save the GeoJson into a file
+    with open(filename, 'w') as outfile:
+        outfile.write(json.dumps(data, outfile, indent=4, separators=(',', ': ')))
+    outfile.close()
+
 def makeGeoJSON (list, kind):
     listOrder = []
     GeoJSON = {}
@@ -49,11 +55,7 @@ def makeGeoJSON (list, kind):
         listOrder.append(entry)
         id = id + 1
         
-
-    # Save the GeoJson into a file
-    with open(kind+'s.geojson', 'w') as outfile:
-        outfile.write(json.dumps(GeoJSON, outfile, indent=4, separators=(',', ': ')))
-    outfile.close()
+    saveJSON(GeoJSON, kind+'s.geojson')
 
     return listOrder
 
@@ -94,7 +96,7 @@ def makeDataImage (data, hours, stations):
             elif x is not 0:
                 pixels[x,y] = pixels[x-1,y]
             else:
-                pixels[x,y] = (255,255,255,0)
+                pixels[x,y] = (255,0,0,0)
     img.save("data.png")
 
 
