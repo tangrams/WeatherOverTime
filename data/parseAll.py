@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-import glob, os, json
+import glob, os, json, datetime
 from common import getReliableStations, getTotalHours, getHourlyString, saveJSON, makeGeoJSON, makeDataImage
 
 # All daily records
