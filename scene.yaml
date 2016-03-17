@@ -3,10 +3,12 @@ sources:
     osm:
         type: TopoJSON
         url:  https://vector.mapzen.com/osm/all/{z}/{x}/{y}.topojson?api_key=vector-tiles-Nhm6Mkg
-
-textures:
-    stationsOverTime:
-        element:
+    stations:
+        type: GeoJSON
+        url:  data/stations.geojson
+cameras:
+    perspective:
+        type: perspective
 layers:
     earth:
         data: { source: osm }
@@ -97,10 +99,7 @@ layers:
                 color: |
                     function() {
                         return [ ( Math.floor(feature.id/255))/255, (feature.id%255)/255, 0 ]; 
-                    }               
-cameras:
-    perspective:
-        type: perspective
+                    }
 styles:
     functions-aastep:
         shaders:
@@ -203,8 +202,8 @@ styles:
         mix: [functions-aastep, geometry-matrices]
         shaders:
             uniforms:
-                u_data: stationsOverTime
-                u_param: [24,1702]
+                u_data: data/data.png
+                u_param: [41,1700]
             blocks: 
                 global: |
                     float getIndex (vec2 encodedIndex) {
@@ -218,30 +217,25 @@ styles:
                         return cos(floor(.5+a/r)*r-a)*length(st);
                     }
 
-                    vec3 getColor (vec2 st) {
+                    vec4 getColor (vec2 st) {
                         float texWidth = u_param.x;
                         float texHeigth = u_param.y;
                         st.y = 1.-st.y/texHeigth;
-                        return texture2D(u_data,vec2(st.x/texWidth,st.y)).rgb;
+                        return texture2D(u_data,vec2(st.x/texWidth,st.y));
                     }
 
                 filter: |
                     float index = getIndex(color.st);
-                    color.rgb = getColor(vec2(mod(u_time,24.), index));
+                    color = getColor(vec2(mod(u_time,u_param.x), index));
 
                     float temp = .5+color.r*.5;
                     float w_speed = color.g;
                     float w_deg = color.b*PI;
 
-                    // Ignore wind blowing at 0.0 degrees. Probably is an error
-                    if (w_deg != 0.0 && color.r != color.g ) {
-                        vec2 st = v_texcoord.xy;
-                        st -= .5;
-                        st = rotate2D(w_deg)* st;
-                        st /= 1.+w_speed*10.;
-                        st += .5;
-                        float d = min(shape(st*vec2(1.5,1.)+vec2(-0.250,-0.07),3),shape(st*vec2(2.,1.)+vec2(-0.500,0.100),4));
-                        color = mix(vec4(1.,0.,0.,1.),vec4(0.,0.,1.,1.),temp*4.-2.5)*vec4(1.0-step(.2,d));
-                    } else {
-                        color.a = 0.0;
-                    }
+                    vec2 st = v_texcoord.xy;
+                    st -= .5;
+                    st = rotate2D(w_deg)* st;
+                    st /= 1.+w_speed*10.;
+                    st += .5;
+                    float d = min(shape(st*vec2(1.5,1.)+vec2(-0.250,-0.07),3),shape(st*vec2(2.,1.)+vec2(-0.500,0.100),4));
+                    color = mix(vec4(1.,0.,0.,1.),vec4(0.,0.,1.,1.),temp*4.-2.5)*vec4(1.0-step(.2,d));
