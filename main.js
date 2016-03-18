@@ -59,26 +59,34 @@ function init() {
                 step: 0.04,
                 range: {
                         'min': 0,
-                        'max': hours.length
-                    }
+                        'max': hours.length-1
+                    },
+                pips: {
+                    mode: 'positions',
+                    values: [0,25,50,75,100],
+                    density: 4,
+                    format: wNumb({
+                            decimals: 0,
+                            edit: function ( value ) {
+                                return formatTime(value);
+                            }
+                    })
+                }
             });
             window.timeSlider = timeSlider;
 
             timeSlider.noUiSlider.on('update', function( values, handle ) {
                 scene.styles.wind.shaders.uniforms.u_offset = parseFloat(values);
-                var date = hours[parseInt(values)].split('-');
-                dataLabel.innerHTML = date[1]+'/'+date[2]+'/'+date[0]+' '+date[3]+'hs';
+                dataLabel.innerHTML = formatTime(values, true);
             });
 
             timeSlider.noUiSlider.on('start', function(){
                 pause = true;
             });
             timeSlider.noUiSlider.on('end', function(){
-                time = timeSlider.noUiSlider.get();
-                console.log(time);
+                time = parseFloat(timeSlider.noUiSlider.get());
                 pause = false;
             });
-
         })
 
     // Load the image with the data
@@ -97,8 +105,6 @@ function init() {
             if (selection.feature) {
                 scene.config.layers.station.properties.hovered = selection.feature.properties.id;
                 scene.rebuild();
-                // console.log(scene.config.layers.station.properties.hovered)
-                // console.log(selection.feature.properties);
             }
         });
     });
@@ -106,10 +112,22 @@ function init() {
 
 function update() {
     if (!pause) {
+        if (typeof time === 'string') {
+            time = parseFloat(time);
+        }
         time += 0.05;
         if (time > hours.length) {
             time = 0;
         }
         window.timeSlider.noUiSlider.set(time);
     }
+}
+
+function formatTime(values, showHour) {
+    var date = hours[Math.floor(values)].split('-');
+    var time = date[1]+'/'+date[2]+'/'+date[0]
+    if (showHour) {
+        time += ' '+date[3]+'hs';
+    }
+    return time;  
 }
