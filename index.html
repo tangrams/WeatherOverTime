@@ -13,14 +13,14 @@
 
         <!-- 3rd party libraries -->
             <!-- Fetch -->
-            <script type="text/javascript" src="https://rawgit.com/github/fetch/master/fetch.js"></script>
+            <script type="text/javascript" src="lib/fetch.js"></script>
 
             <!-- Leaflet -->
             <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v1.0.0-beta.2/leaflet.css" />
             <script type="text/javascript" src="http://cdn.leafletjs.com/leaflet/v1.0.0-beta.2/leaflet.js"></script>
 
             <!-- Leaflet URL hash -->
-            <script type="text/javascript" src="https://rawgit.com/mlevans/leaflet-hash/master/leaflet-hash.js"></script>
+            <script type="text/javascript" src="lib/leaflet-hash.js"></script>
 
             <!-- Tangram -->
             <script type="text/javascript" src="https://mapzen.com/tangram/0.5/tangram.min.js"></script>
@@ -51,9 +51,19 @@
             #time {
                 position: absolute;
                 width: 90%;
-                bottom: 100px;
+                bottom: 50px;
                 left: 50%;
                 transform: translate(-50%,0);
+                z-index: 100;
+            }
+
+            #date {
+                font-family: 'Jura', Helvetica, Arial, sans-serif;
+                color: white;
+                font-size: 30px;
+                position: absolute;
+                top: 22px;
+                right: 56px;
                 z-index: 100;
             }
         </style>
@@ -63,6 +73,7 @@
         <!-- The Map it self -->
         <div id="map"></div>
         <div id="time"></div>
+        <div id="date"></div>
 
         <script src="main.js"></script>
 

@@ -16,7 +16,7 @@ map = (function () {
     // Create a Tangram Layer
     var layer = Tangram.leafletLayer({
         scene: 'scene.yaml',
-        attribution: '<a href="http://openweathermap.org/" target="_blank">OpenWeatherMap</a> | <a href="https://mapzen.com/tangram" target="_blank">Tangram</a> | &copy; OSM contributors | <a href="https://mapzen.com/" target="_blank">Mapzen</a>'
+        attribution: '<a href="https://mapzen.com/tangram" target="_blank">Tangram</a> | &copy; OSM contributors | <a href="https://mapzen.com/" target="_blank">Mapzen</a>'
     });
 
     window.layer = layer;
@@ -52,8 +52,9 @@ function init() {
             hours = json;
 
             var timeSlider = document.getElementById('time');
+            var dataLabel = document.getElementById('date');
             var slider = noUiSlider.create(timeSlider, {
-                start: 2,
+                start: 0,
                 step: 0.04,
                 range: {
                         'min': 0,
@@ -64,6 +65,8 @@ function init() {
 
             timeSlider.noUiSlider.on('update', function( values, handle ) {
                 scene.styles.wind.shaders.uniforms.u_offset = parseFloat(values);
+                var date = hours[parseInt(values)].split('-');
+                dataLabel.innerHTML = date[1]+'/'+date[2]+'/'+date[0]+' '+date[3]+'hs';
             });
         })
         //  .catch(function(error) {
