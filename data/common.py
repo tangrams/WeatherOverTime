@@ -29,8 +29,6 @@ def getReliableStations (files):
 
                     
         index = index + 1;
-
-    print len(stationsList), len(stations)
     return stations
 
 def saveJSON (data, filename):
