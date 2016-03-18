@@ -1,6 +1,8 @@
 var hours = [];
 var time = 0;
 var pause = false;
+var selected = -1;
+var display = null;
 
 // Init tangram
 map = (function () {
@@ -54,6 +56,7 @@ function init() {
 
             var timeSlider = document.getElementById('time');
             var dataLabel = document.getElementById('date');
+
             var slider = noUiSlider.create(timeSlider, {
                 start: 0,
                 step: 0.04,
@@ -76,8 +79,12 @@ function init() {
             window.timeSlider = timeSlider;
 
             timeSlider.noUiSlider.on('update', function( values, handle ) {
-                scene.styles.wind.shaders.uniforms.u_offset = parseFloat(values);
+                var t = parseFloat(values);
+                scene.styles.wind.shaders.uniforms.u_offset = t;
                 dataLabel.innerHTML = formatTime(values, true);
+                if (display) {
+                    display.setUniform('u_hour',t,0);
+                }
             });
 
             timeSlider.noUiSlider.on('start', function(){
@@ -98,13 +105,28 @@ function init() {
     downloadingImage.src = 'data/data.png'
     window.setInterval('update()', 100);
 
+    var dataDisplay = document.getElementById('display');
+    display = new GlslCanvas(dataDisplay);
+    display.canvas.style.visibility = 'hidden';
+
     // Init the feature selection
-    map.getContainer().addEventListener('mousemove', function (event) {
+    map.getContainer().addEventListener('click', function (event) {
         var pixel = { x: event.clientX, y: event.clientY };
         scene.getFeatureAt(pixel).then( (selection) => {
-            if (selection.feature) {
-                scene.config.layers.station.properties.hovered = selection.feature.properties.id;
+            if (selection.feature && selected !== selection.feature.properties.id) {
+                selected = selection.feature.properties.id;
+                scene.config.layers.station.properties.hovered = selected;
                 scene.rebuild();
+                if (display.canvas.style.visibility === 'hidden') {
+                    display.canvas.style.visibility = 'visible';
+                }
+                display.setUniform('u_id',selection.feature.properties.id,0)
+            }
+            else if (selected !== -1) {
+                selected = -1;
+                scene.config.layers.station.properties.hovered = selected;
+                scene.rebuild();
+                display.canvas.style.visibility = 'hidden';
             }
         });
     });
