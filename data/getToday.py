@@ -64,8 +64,7 @@ for filename in glob.glob('*.TXT'):
                         database[obs.station_id]['cycles'] = {}
 
                     database[obs.station_id]['cycles'][cycle.group(1)] = data
-
-                    print "Adding ",stations[obs.station_id].name
+                    # print "Adding ",stations[obs.station_id].name
 
             except Metar.ParserError, err:
                 print "Fail to parse METAR: ",line
