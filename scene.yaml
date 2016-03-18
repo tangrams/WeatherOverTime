@@ -1,4 +1,5 @@
-﻿# Author @patriciogv - 2016
+﻿# Author: Paitricio Gonzalez Vivo @patricio 2016
+
 sources:
     osm:
         type: TopoJSON
@@ -89,16 +90,19 @@ layers:
                     width: [[14,.1px],[16,.5px], [17, 2m]]
     station:
         data: { source: stations }
+        properties: 
+            hovered: -1
         draw:
             wind:
-                collide: false
+                interactive: true
+                # collide: false
                 blend: overlay
                 blend_order: 1
                 size: 50
-                color: red
                 color: |
                     function() {
-                        return [ ( Math.floor(feature.id/255))/255, (feature.id%255)/255, 0 ]; 
+                        var hovered = feature.id === properties.hovered ? 1 : 0;
+                        return [ ( Math.floor(feature.id/255))/255, (feature.id%255)/255, hovered ]; 
                     }
 styles:
     functions-aastep:
@@ -179,6 +183,149 @@ styles:
                 position: |
                     // Normalize the attribute position of a vertex
                     v_pos = modelPosition().xyz;
+    shapes-rect:
+        shaders:
+            blocks:
+                global: |
+                    // get distance field of a rectangle in the center
+                    // ================================
+                    float rectDF(vec2 st, vec2 size) {
+                        //float aspect = u_resolution.x/u_resolution.y;
+                        st = st*2.-1.;
+                        //st.x *= aspect;
+                        return length(max(abs(st)-size,.0));
+                    }
+                    float rectDF(vec2 st, float size) {
+                        //float aspect = u_resolution.x/u_resolution.y;
+                        st = st*2.-1.;
+                        //st.x *= aspect;
+                        return length(max(abs(st)-size,.0));
+                    }
+                    
+                    // Draw a round corners rectangle in the center
+                    // ================================
+                    float rect(vec2 st, vec2 size, float radio) {
+                        radio = max(.000001, radio);
+                        return 1.0-step(radio, rectDF(st, size-radio));
+                    }
+                    
+                    float rect(vec2 st, float size, float radio) {
+                        return rect(st,vec2(size),radio);
+                    }
+                    
+                    // Draw a rectangle in the center
+                    // ================================
+                    float rect(vec2 st, vec2 size){
+                        size = .25-size*.125;
+                        vec2 uv = step(size,st*(1.0-st));
+                        return (uv.x*uv.y);
+                    }
+                    
+                    float rect(vec2 st, float size){
+                        return rect(st,vec2(size));
+                    }
+    shapes-cross:
+        mix: shapes-rect
+        shaders:
+            blocks:
+                global: |
+                    // Draw a Cross in the middle of the ST space
+                    float cross (vec2 st, float size, float width) {
+                        return  clamp(  rect(st, vec2(size*0.5,width*0.125)) +
+                                        rect(st, vec2(width*0.125,size*0.5)),0.,1.);
+                    }
+    shapes-digits:
+        shaders:
+            blocks:
+                global: |
+                    const float kCharBlank = 12.0;
+                    const float kCharMinus = 11.0;
+                    const float kCharDecimalPoint = 10.0;
+
+                    // https://www.shadertoy.com/view/4sf3RN
+                    float SampleDigit(const in float fDigit, const in vec2 vUV) {       
+                        if(vUV.x < 0.0) return 0.0;
+                        if(vUV.y < 0.0) return 0.0;
+                        if(vUV.x >= 1.0) return 0.0;
+                        if(vUV.y >= 1.0) return 0.0;
+                        
+                        // In this version, each digit is made up of a 4x5 array of bits
+                        float fDigitBinary = 0.0;
+                        
+                        if(fDigit < 0.5) { // 0
+                            fDigitBinary = 7.0 + 5.0 * 16.0 + 5.0 * 256.0 + 5.0 * 4096.0 + 7.0 * 65536.0;
+                        } else if(fDigit < 1.5) { // 1
+                            fDigitBinary = 2.0 + 2.0 * 16.0 + 2.0 * 256.0 + 2.0 * 4096.0 + 2.0 * 65536.0;
+                        } else if(fDigit < 2.5) { // 2
+                            fDigitBinary = 7.0 + 1.0 * 16.0 + 7.0 * 256.0 + 4.0 * 4096.0 + 7.0 * 65536.0;
+                        } else if(fDigit < 3.5) { // 3
+                            fDigitBinary = 7.0 + 4.0 * 16.0 + 7.0 * 256.0 + 4.0 * 4096.0 + 7.0 * 65536.0;
+                        } else if(fDigit < 4.5) { // 4
+                            fDigitBinary = 4.0 + 7.0 * 16.0 + 5.0 * 256.0 + 1.0 * 4096.0 + 1.0 * 65536.0;
+                        } else if(fDigit < 5.5) { // 5
+                            fDigitBinary = 7.0 + 4.0 * 16.0 + 7.0 * 256.0 + 1.0 * 4096.0 + 7.0 * 65536.0;
+                        } else if(fDigit < 6.5) { // 6
+                            fDigitBinary = 7.0 + 5.0 * 16.0 + 7.0 * 256.0 + 1.0 * 4096.0 + 7.0 * 65536.0;
+                        } else if(fDigit < 7.5) { // 7
+                            fDigitBinary = 4.0 + 4.0 * 16.0 + 4.0 * 256.0 + 4.0 * 4096.0 + 7.0 * 65536.0;
+                        } else if(fDigit < 8.5) { // 8
+                            fDigitBinary = 7.0 + 5.0 * 16.0 + 7.0 * 256.0 + 5.0 * 4096.0 + 7.0 * 65536.0;
+                        } else if(fDigit < 9.5) { // 9
+                            fDigitBinary = 7.0 + 4.0 * 16.0 + 7.0 * 256.0 + 5.0 * 4096.0 + 7.0 * 65536.0;
+                        } else if(fDigit < 10.5) { // '.'
+                            fDigitBinary = 2.0 + 0.0 * 16.0 + 0.0 * 256.0 + 0.0 * 4096.0 + 0.0 * 65536.0;
+                        } else if(fDigit < 11.5) { // '-'
+                            fDigitBinary = 0.0 + 0.0 * 16.0 + 7.0 * 256.0 + 0.0 * 4096.0 + 0.0 * 65536.0;
+                        }
+
+                        vec2 vPixel = floor(vUV * vec2(4.0, 5.0));
+                        float fIndex = vPixel.x + (vPixel.y * 4.0);
+                        return mod(floor(fDigitBinary / pow(2.0, fIndex)), 2.0);
+                    }
+
+                    float PrintValue(const in vec2 vStringCharCoords, const in float fValue, const in float fMaxDigits, const in float fDecimalPlaces) {
+                        float fAbsValue = abs(fValue);
+                        float fStringCharIndex = floor(vStringCharCoords.x);
+                        float fLog10Value = log2(fAbsValue) / log2(10.0);
+                        float fBiggestDigitIndex = max(floor(fLog10Value), 0.0);
+                        
+                        // This is the character we are going to display for this pixel
+                        float fDigitCharacter = kCharBlank;
+                        float fDigitIndex = fMaxDigits - fStringCharIndex;
+                        if(fDigitIndex > (-fDecimalPlaces - 1.5)) {
+                            if(fDigitIndex > fBiggestDigitIndex) {
+                                if(fValue < 0.0) {
+                                    if(fDigitIndex < (fBiggestDigitIndex+1.5)) {
+                                        fDigitCharacter = kCharMinus;
+                                    }
+                                }
+                            } else {        
+                                if(fDigitIndex == -1.0) {
+                                    if(fDecimalPlaces > 0.0) {
+                                        fDigitCharacter = kCharDecimalPoint;
+                                    }
+                                } else {
+                                    if(fDigitIndex < 0.0) {
+                                        // move along one to account for .
+                                        fDigitIndex += 1.0;
+                                    }
+                                    float fDigitValue = (fAbsValue / (pow(10.0, fDigitIndex)));
+
+                                    // This is inaccurate - I think because I treat each digit independently
+                                    // The value 2.0 gets printed as 2.09 :/
+                                    //fDigitCharacter = mod(floor(fDigitValue), 10.0);
+                                    fDigitCharacter = mod(floor(0.0001+fDigitValue), 10.0); // fix from iq
+                                }       
+                            }
+                        }
+
+                        vec2 vCharPos = vec2(fract(vStringCharCoords.x), vStringCharCoords.y);
+                        return SampleDigit(fDigitCharacter, vCharPos);  
+                    }
+
+                    float PrintValue(in vec2 fragCoord, const in vec2 vPixelCoords, const in vec2 vFontSize, const in float fValue, const in float fMaxDigits, const in float fDecimalPlaces){
+                        return PrintValue((fragCoord.xy - vPixelCoords) / vFontSize, fValue, fMaxDigits, fDecimalPlaces);
+                    }
     area:
         base: polygons
         mix: [geometry-matrices, functions-map, functions-aastep, space-tile]
@@ -199,7 +346,7 @@ styles:
         base: points
         texcoords: true
         animated: true
-        mix: [functions-aastep, geometry-matrices]
+        mix: [functions-aastep, geometry-matrices, shapes-cross, shapes-digits]
         shaders:
             uniforms:
                 u_data: data/data.png
@@ -225,19 +372,36 @@ styles:
                         return texture2D(u_data,vec2(st.x/texWidth,st.y));
                     }
 
-                filter: |
+                color: |
                     float index = getIndex(color.st);
                     color = getColor(vec2(mod(u_offset,u_param.x), index));
 
-                    float temp = .5+color.r*.5;
+                    float hover = v_color.b;
+                    float valid = step(0.9,v_color.a);
+                    float temp = (color.r-.5)*2.;
                     float w_speed = color.g;
                     float w_deg = color.b*PI;
 
                     vec2 st = v_texcoord.xy;
                     st -= .5;
                     st = rotate2D(w_deg)* st;
-                    st /= 1.+w_speed*5.;
+                    st *= 0.716;
                     st += .5;
-                    float d = min(shape(st*vec2(1.5,1.)+vec2(-0.250,-0.07),3),shape(st*vec2(2.,1.)+vec2(-0.500,0.100),4));
-                    color.rgb = mix(vec3(0.,0.,1.),vec3(1.,0.,0.),temp*4.-2.5);
-                    color.a *= 1.0-step(.2,d);
+
+                    // Arrow
+                    float scale = (1.-w_speed)*1.;
+                    float d = shape(st*vec2(scale+.5,.5)+vec2(scale*-.5+.25,.3),3);
+                    color.rgb = mix(vec3(0.,0.,1.),vec3(1.,0.,0.),sin(temp*3.14)*.5+.5);
+                    color.a *= 1.0-step(.2,d)*valid;
+
+                    // Hud
+                    float hud = 0.;
+                    hud += max(rect(v_texcoord.xy,2.)-rect(v_texcoord.xy,1.6)-cross(v_texcoord.xy,5.,5.),0.)*hover;
+
+                    vec2 vFontSize = vec2(4.0, 5.0);
+                    hud += PrintValue(v_texcoord.xy*vec2(35.), vec2(4.,4.), vFontSize, temp*255., 2., 1.);
+
+                    vec2 offset = v_texcoord.xy-vec2(0.240,-0.280);
+                    hud += rect(offset,.01)-rect(offset,.001);
+
+                    color += hud*valid;

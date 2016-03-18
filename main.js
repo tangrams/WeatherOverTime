@@ -1,5 +1,6 @@
 var hours = [];
 var time = 0;
+var pause = false;
 
 // Init tangram
 map = (function () {
@@ -28,16 +29,16 @@ map = (function () {
 
     /***** Once the page is loaded is time to initialize the routines that handles the interaction *****/
     window.addEventListener('load', function () {
-        init();
+        // Add Tangram `layer` to Leaflet `map`
+        layer.addTo(map);
+        setTimeout(init, 2000);
     });
 
     return map;
 }());
 
 function init() {
-    // Add Tangram `layer` to Leaflet `map`
-    layer.addTo(map);
-
+    // Make TimeLine
     fetch('data/hours.json')
         .then(function (response) {
             // If we get a positive response...
@@ -68,26 +69,47 @@ function init() {
                 var date = hours[parseInt(values)].split('-');
                 dataLabel.innerHTML = date[1]+'/'+date[2]+'/'+date[0]+' '+date[3]+'hs';
             });
-        })
-        //  .catch(function(error) {
-        //     console.log('Error parsing the JSON', error);
-        // });
 
-    setTimeout(function(){
-        var downloadingImage = new Image();
-        downloadingImage.onload = function(){
-            console.log(this.width,this.height);
-            scene.styles.wind.shaders.uniforms.u_param = [this.width,this.height];
-        };
-        downloadingImage.src = 'data/data.png'
-        window.setInterval('update()', 100);
-    }, 2000);
+            timeSlider.noUiSlider.on('start', function(){
+                pause = true;
+            });
+            timeSlider.noUiSlider.on('end', function(){
+                time = timeSlider.noUiSlider.get();
+                console.log(time);
+                pause = false;
+            });
+
+        })
+
+    // Load the image with the data
+    var downloadingImage = new Image();
+    downloadingImage.onload = function(){
+        // console.log(this.width,this.height);
+        scene.styles.wind.shaders.uniforms.u_param = [this.width,this.height];
+    };
+    downloadingImage.src = 'data/data.png'
+    window.setInterval('update()', 100);
+
+    // Init the feature selection
+    map.getContainer().addEventListener('mousemove', function (event) {
+        var pixel = { x: event.clientX, y: event.clientY };
+        scene.getFeatureAt(pixel).then( (selection) => {
+            if (selection.feature) {
+                scene.config.layers.station.properties.hovered = selection.feature.properties.id;
+                scene.rebuild();
+                // console.log(scene.config.layers.station.properties.hovered)
+                // console.log(selection.feature.properties);
+            }
+        });
+    });
 }
 
 function update() {
-    time += 0.05;
-    if (time > hours.length) {
-        time = 0;
+    if (!pause) {
+        time += 0.05;
+        if (time > hours.length) {
+            time = 0;
+        }
+        window.timeSlider.noUiSlider.set(time);
     }
-    window.timeSlider.noUiSlider.set(time);
 }
