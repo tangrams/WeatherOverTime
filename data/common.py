@@ -15,18 +15,22 @@ def getReliableStations (files):
             else:
                 # substract the non present stations on the rest of the records 
                 keys = data.keys()
-                for key in keys:
-                    if index is 1:
-                        stations[key] = {}
-                        stations[key]['name'] = data[key]['name']
-                        stations[key]['lng'] = data[key]['lng']
-                        stations[key]['lat'] = data[key]['lat']
-
-                    if key not in stationsList:
+                for key in stationsList:
+                    if key not in keys:
                         print key,'is not always present, removing it'
                         stationsList.remove(key)
                         stations.pop(key, None)
+                    else:
+                        if index is 1:
+                            stations[key] = {}
+                            stations[key]['name'] = data[key]['name']
+                            stations[key]['lng'] = data[key]['lng']
+                            stations[key]['lat'] = data[key]['lat']
+
+                    
         index = index + 1;
+
+    print len(stationsList), len(stations)
     return stations
 
 def saveJSON (data, filename):

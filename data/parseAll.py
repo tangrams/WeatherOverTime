@@ -12,6 +12,8 @@ stations = getReliableStations(files)
 # make a GeoJSON of it
 stationsList = makeGeoJSON(stations,'station')
 
+print len(stations), len(stationsList)
+
 hoursList = getTotalHours(files)
 
 saveJSON(hoursList,"hours.json")
