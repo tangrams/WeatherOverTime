@@ -378,7 +378,7 @@ styles:
 
                     float hover = v_color.b;
                     float valid = step(0.9,v_color.a);
-                    float temp = (color.r-.5)*2.;
+                    float temp = color.r;
                     float w_speed = color.g;
                     float w_deg = color.b*PI;
 
@@ -391,7 +391,7 @@ styles:
                     // Arrow
                     float scale = (1.-w_speed)*1.;
                     float d = shape(st*vec2(scale+.5,.5)+vec2(scale*-.5+.25,.3),3);
-                    color.rgb = mix(vec3(0.,0.,1.),vec3(1.,0.,0.),sin(temp*3.14)*.5+.5);
+                    color.rgb = mix(vec3(0.,0.,1.),vec3(1.,0.,0.),temp);
                     color.a *= 1.0-step(.2,d)*valid;
 
                     // Hud
@@ -399,7 +399,7 @@ styles:
                     hud += max(rect(v_texcoord.xy,2.)-rect(v_texcoord.xy,1.6)-cross(v_texcoord.xy,5.,5.),0.)*hover;
 
                     vec2 vFontSize = vec2(4.0, 5.0);
-                    hud += PrintValue(v_texcoord.xy*vec2(35.), vec2(4.,4.), vFontSize, temp*255., 2., 1.);
+                    hud += PrintValue(v_texcoord.xy*vec2(35.), vec2(4.,4.), vFontSize, temp*100., 2., 1.);
 
                     vec2 offset = v_texcoord.xy-vec2(0.240,-0.280);
                     hud += rect(offset,.01)-rect(offset,.001);

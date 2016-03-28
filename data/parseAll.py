@@ -10,13 +10,13 @@ files = sorted(glob.glob('????-??-??-*.json'), key=os.path.getmtime)
 stations = getReliableStations(files)
 
 # make a GeoJSON of it
-stationsList = makeGeoJSON(stations,'station')
+stationsList = makeGeoJSON(stations, 'station')
 
 print len(stations), len(stationsList)
 
 hoursList = getTotalHours(files)
 
-saveJSON(hoursList,"hours.json")
+saveJSON(hoursList, "hours.json")
 
 database = {}
 for filename in files:
@@ -36,9 +36,9 @@ for filename in files:
 makeDataImage(database, hoursList, stationsList)
 
 # Adding everything to github
-os.system('git add -A')
-os.system('git commit -am "' + str(datetime.date.today()) + '-' + str(datetime.datetime.now().hour) + '"')
-os.system('git push')
+#os.system('git add -A')
+#os.system('git commit -am "' + str(datetime.date.today()) + '-' + str(datetime.datetime.now().hour) + '"')
+#os.system('git push')
 
 
 

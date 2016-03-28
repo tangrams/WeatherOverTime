@@ -78,10 +78,13 @@ def getTotalHours (files):
 
     return sorted(hours)
 
+def toFahrenheit(celsius):
+    return 9.0/5.0 * celsius + 32
+
 def getColorFor(data, hour, station):
     if data[station].has_key(hour):
         datum = data[station][hour]
-        return (127+int(datum['temp']), int(datum['wind_speed']), int((datum['wind_deg']/360)*255), 255)
+        return (int(toFahrenheit(datum['temp'])*2.55), int(datum['wind_speed']*5), int((datum['wind_deg']/360)*255), 255)
     else:
         return None
 
