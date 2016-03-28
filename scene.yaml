@@ -430,7 +430,7 @@ styles:
                         st += .5;
 
                         // Arrow
-                        float scale = (1.-w_speed)*1.5;
+                        float scale = (1.-w_speed)*1.3;
                         float d = shape(st*vec2(scale+.5,.5)+vec2(scale*-.5+.25,.3),3);
                         color.rgb = mix(vec3(0.,0.,1.),vec3(1.,0.,0.),temp);
                         color.a *= 1.0-step(.2,d)*valid;
