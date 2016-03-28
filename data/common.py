@@ -7,7 +7,8 @@ def getReliableStations (files):
     stations = {}
     index = 0
     for filename in files:
-        with open(filename) as data_file:    
+        with open(filename) as data_file:
+            print(filename)
             data = json.load(data_file)
             if index is 0:
                 # Grab the stations of the first record
