@@ -40,12 +40,11 @@ layers:
                 color: [0.186, 0.210, 0.184]
     boundaries:
         data: { source: osm }
-        properties: { width: 3 }
         draw:
             lines:
                 order: function() { return feature.sort_key; }
-                color: [0.236, 0.236, 0.236]
-                width: .5px
+                color: [0.270, 0.270, 0.270]
+                width: [[8,1.5px],[9,0px]]
     roads:
         data: { source: osm, layer: roads }
         filter: { $zoom: {min: 7}, not: { highway: service, kind: [rail, ferry] } }

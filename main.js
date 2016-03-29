@@ -2,6 +2,7 @@ var hours = [];
 var time = 0;
 var pause = false;
 var selected = -1;
+var displayContainer = null;
 var display = null;
 
 // Init tangram
@@ -105,9 +106,11 @@ function init() {
     downloadingImage.src = 'data/data.png'
     window.setInterval('update()', 100);
 
-    var dataDisplay = document.getElementById('display');
+    var dataDisplay = document.getElementById('display_shader');
     display = new GlslCanvas(dataDisplay);
-    display.canvas.style.visibility = 'hidden';
+
+    displayContainer = document.getElementById('display');
+    displayContainer.style.visibility = 'hidden';
 
     // Init the feature selection
     map.getContainer().addEventListener('click', function (event) {
@@ -117,8 +120,8 @@ function init() {
                 selected = selection.feature.properties.id;
                 scene.config.layers.station.properties.hovered = selected;
                 scene.rebuild();
-                if (display.canvas.style.visibility === 'hidden') {
-                    display.canvas.style.visibility = 'visible';
+                if (displayContainer.style.visibility === 'hidden') {
+                    displayContainer.style.visibility = 'visible';
                 }
                 display.setUniform('u_id',selection.feature.properties.id,0)
             }
@@ -126,7 +129,7 @@ function init() {
                 selected = -1;
                 scene.config.layers.station.properties.hovered = selected;
                 scene.rebuild();
-                display.canvas.style.visibility = 'hidden';
+                displayContainer.style.visibility = 'hidden';
             }
         });
     });

@@ -86,11 +86,42 @@
             #display {
                 position: absolute;
                 width: 90.5%;
-                height: 26px;
+                height: 45px;
                 bottom: 77px;
                 left: 50%;
                 transform: translate(-50%,0);
                 z-index: 99;
+            }
+
+            .display_label {
+                position: absolute;
+                font-family: 'Jura', Helvetica, Arial, sans-serif;
+                color: white;
+                z-index: 101;
+                left: 5px;
+                margin: 0px;
+                padding: 0px;
+            }
+
+            .blue_label {
+                top: 0px;
+            }
+
+            .green_label {
+                top: 14px;
+            }
+
+            .red_label {
+                top: 28px;
+            }
+
+            #display_shader {
+                position: absolute;
+                top: 0px;
+                left: 0px;
+                width: 100%;
+                height: 100%;
+                z-index: 100;
             }
 
             .leaflet-control-attribution {
@@ -118,7 +149,12 @@
         <div id="time"></div>
         <div id="date"></div>
 
-        <canvas id="display" data-fragment-url="data/display.frag" data-textures="data/data.png" width="800" height="20"></canvas>
+        <div id="display">
+            <p class="display_label blue_label"> Wind Direction</p>
+            <p class="display_label green_label"> Wind Speed</p>
+            <p class="display_label red_label"> Temperature</p>
+            <canvas id="display_shader" data-fragment-url="data/display.frag" data-textures="data/data.png" width="800" height="45"></canvas>
+        </div>
 
         <script src="main.js"></script>
 
