@@ -115,7 +115,7 @@ function init() {
     // Init the feature selection
     map.getContainer().addEventListener('click', function (event) {
         var pixel = { x: event.clientX, y: event.clientY };
-        scene.getFeatureAt(pixel).then( (selection) => {
+        scene.getFeatureAt(pixel).then( function (selection) {
             if (selection.feature && selected !== selection.feature.properties.id) {
                 selected = selection.feature.properties.id;
                 scene.config.layers.station.properties.hovered = selected;

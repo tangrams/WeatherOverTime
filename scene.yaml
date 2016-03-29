@@ -417,12 +417,11 @@ styles:
                     float hud = 0.;
                     hud += max(rect(st,2.)-rect(st,1.6)-cross(st,5.,5.),0.)*hover;
                     
-                    if (valid == 1. && color.rgb != vec3(1.,0.,0.)) {
+                    if (valid > .9 && color.rgb != vec3(1.,0.,0.)) {
                         float temp = color.r;
                         float w_speed = color.g;
                         float w_deg = color.b*PI;
 
-                        
                         st -= .5;
                         st = rotate2D(w_deg)* st;
                         st *= 0.716;
