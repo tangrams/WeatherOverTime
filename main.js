@@ -8,6 +8,8 @@ var display = null;
 // Init tangram
 map = (function () {
     'use strict';
+
+    var map_start_location = [39.825, -98.170, 5];
     
     // Create a Leaflet Map
     var map = L.map('map',{
@@ -16,6 +18,13 @@ map = (function () {
         dragging: (window.self !== window.top && L.Browser.touch) ? false : true,
         tap: (window.self !== window.top && L.Browser.touch) ? false : true,
     });
+
+    var url_hash = window.location.hash.slice(1).split('/');
+    if (url_hash.length == 3) {
+        map_start_location = [url_hash[1], url_hash[2], url_hash[0]];
+        // convert from strings
+        map_start_location = map_start_location.map(Number);
+    }
 
     // Create a Tangram Layer
     var layer = Tangram.leafletLayer({
@@ -27,7 +36,7 @@ map = (function () {
     var scene = layer.scene;
     window.scene = scene;
 
-    map.setView([39.825, -98.170], 5); // Default map location
+    map.setView(map_start_location.slice(0, 2), map_start_location[2]);
     var hash = new L.Hash(map);
 
     /***** Once the page is loaded is time to initialize the routines that handles the interaction *****/
