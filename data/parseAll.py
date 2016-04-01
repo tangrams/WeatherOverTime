@@ -36,9 +36,9 @@ for filename in files:
 makeDataImage(database, hoursList, stationsList)
 
 # Adding everything to github
-#os.system('git add -A')
-#os.system('git commit -am "' + str(datetime.date.today()) + '-' + str(datetime.datetime.now().hour) + '"')
-#os.system('git push')
+os.system('git add -A')
+os.system('git commit -am "' + str(datetime.date.today()) + '-' + str(datetime.datetime.now().hour) + '"')
+os.system('git push')
 
 
 
