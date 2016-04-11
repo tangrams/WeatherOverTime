@@ -14,7 +14,8 @@ sources:
 textures:
     data_image:
         url: data/data.png
-        # filtering: neare st
+        filtering: nearest
+
 global:
     hovered: -1
 
@@ -69,7 +70,7 @@ layers:
                 lines:
                     order: function() { return feature.sort_key; }
                     color: [0.680, 0.244, 0.432]
-                    width: [[8,0px], [8,.25px], [11, 2px], [14, 3px], [16, 4px], [17, 10m]]
+                    width: [[8,0px], [8,.25px], [11, 1.5px], [14, 2px], [16, 4px], [17, 10m]]
             link:
                 filter: { is_link: yes } # on- and off-ramps, etc
                 draw:
@@ -95,7 +96,7 @@ layers:
                 collide: false
                 blend: overlay
                 blend_order: 1
-                size: 50
+                size: 40
                 color: |
                     function() {
                         var hovered = feature.id === global.hovered ? 1 : 0;
@@ -438,41 +439,60 @@ styles:
 
                 color: |
                     float index = getIndex(color.st);
-                    color = getColor(vec2(mod(u_offset,u_param.x), index));
-                    //color = getColor(vec2(mod(u_time,u_param.x), index));
+                    float t = u_offset;
+                    // t = u_time;
+                    
+                    color = vec4(0.);
+                    float i_now = floor(t);
+                    float f_now = fract(t);
+                    float next = i_now+1.;
+
+                    vec4 data_now = getColor(vec2(mod(i_now,u_resolution.x),index));
+                    vec4 data_next = getColor(vec2(mod(next,u_resolution.x),index));
+                    vec4 data_interpol = mix(data_now,data_next,f_now);
+
+                    float dir_now = data_now.b;
+                    float dir_next = (data_next.g == 0.)? data_now.b : data_next.b;
+                    float dir_delta = fract(dir_next-dir_now);
+                    if (dir_delta > .5) {
+                        dir_delta -= 1.;
+                    }
+                    dir_next = dir_now + dir_delta;
+
+                    float w_deg = mix(dir_now, dir_next, f_now)*-TWO_PI;
+                    float w_speed = data_interpol.g;
+                    float temp = data_interpol.r;
+                    
                     vec2 st = v_texcoord.xy;
                     float hud = 0.;
                     
-                    float valid = smoothstep(0.5,1.,color.a);
-                    float temp = color.r;
-                    float w_speed = color.g;
-                    float w_deg = color.b*-TWO_PI;
-                    color = vec4(0.);
+                    // float valid = smoothstep(0.5,1.,data_interpol.a);
                     
                     if (v_color.b != 0.) {
                         hud += max(rect(st,2.)-rect(st,1.6)-cross(st,5.,5.),0.);
                     }
                         
-                    if (valid > .9 && w_speed != 0.) { 
+                    // if (valid > .9) { 
                         st -= .5;
                         st = rotate2D(w_deg) * st;
-                        st *= 1.4;
+                        // st *= 1.4;
                         st += .5;
 
                         // Arrow
                         float scale = .5;//(1.-w_speed)*1.3;
-                        float d = shape(st*vec2(scale+.5,.5)+vec2(scale*-.5+.25,.3),3);
-                        color.rgb = mix(vec3(0.,0.,1.),vec3(1.,0.,0.), w_speed);
-                        color.a = 1.0-step(.2,d)*valid;
+                        float d = shape(st * vec2(scale+.5,.5) + vec2(scale*-.5+.25,.3),3) / shape(st * vec2(scale+.5,.5) + vec2(scale*-.5+.25,1.132),3);
+                        color.rgb = mix(vec3(0.029,0.321,0.440),vec3(1.000,0.000,0.060), w_speed);
+                        color.a = 1.0-step(.2,d);//*valid;
                         // color.a *= .2+w_speed;
-                    } else {
-                        color = vec4(vec3(0.176,0.243,0.286),1.0)*cross(st, 0.464, 0.104);
-                    }
+                    // } else {
+                    //     st -= .5;
+                    //     st *= 1.4;
+                    //     st += .5;
+                    //     color = vec4(vec3(0.956,0.970,0.960),1.0)*cross(st, 0.464, 0.104);
+                    // }
                     
                     color.rgb -= hud;
                     color.a += hud;
-
-                    
     elevation:
         base: polygons
         mix: [color-tools, functions-map]
@@ -480,18 +500,9 @@ styles:
         shaders: 
             blocks:
                 color: |
-                    float z = 1.-map(u_map_position.z,6.,14.400,0.,1.);
-                    float b = sampleRaster(0).b+clamp(z*z,0.,.5);
+                    float z = 1.-map(u_map_position.z,7.,14.,0.,1.);
+                    float b = sampleRaster(0).b+clamp(z*z,0.,0.524);
                     if (b != 0.0) {
-                        color.rgb = mix(vec3(0.039,0.004,0.016), vec3(0.176,0.243,0.286), smoothstep(0.108,0.860,b));
-                        color.rgb = mix(color.rgb, vec3(0.933,0.937,0.949), smoothstep(0.524,1.,b));
+                        color.rgb = mix(vec3(0.039,0.004,0.016), vec3(0.176,0.243,0.286), smoothstep(0.1,0.9,b));
+                        color.rgb = mix(color.rgb, vec3(0.933,0.937,0.949), smoothstep(0.708,1.,b));
                     }
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
