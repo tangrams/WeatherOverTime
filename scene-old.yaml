@@ -4,60 +4,50 @@ sources:
     osm:
         type: TopoJSON
         url:  https://vector.mapzen.com/osm/all/{z}/{x}/{y}.topojson?api_key=vector-tiles-Nhm6Mkg
-        rasters: [elevation]
     stations:
         type: GeoJSON
         url:  data/stations.geojson
-    elevation:
-        type: Raster
-        url: http://c.tile.stamen.com/terrain-background/{z}/{x}/{y}.jpg
-textures:
-    data_image:
-        url: data/data.png
-        # filtering: neare st
-global:
-    hovered: -1
-
 cameras:
     perspective:
         type: perspective
 scene:
     background: 
-        color: [0.933,0.937,0.949]
+        color: [0.635, 0.695, 0.702]
 layers:
     earth:
         data: { source: osm }
         draw:
-            elevation:
+            polygons:
                 order: function() { return feature.sort_key; }
-                color: [0.933,0.937,0.949]
-            lines:
-                order: 11
-                color: [0.270, 0.270, 0.270]
-                width: 2px
+                color: [0.131, 0.135, 0.133]
     water:
         data: { source: osm }
         draw:
-            water:
+            polygons:
                 order: function() { return feature.sort_key; }
-                color: [0.933,0.937,0.949]
+                color: [0.635, 0.695, 0.702]
+        oceans:
+            filter: { kind: ocean }
+            draw:
+                simple-grid:
+                    order: function() { return feature.sort_key; }
+                    color: [0.659, 0.702, 0.695]
     landuse:
         data: { source: osm }
         draw:
             area:
                 order: function() { return feature.sort_key; }
-                color: [0.933,0.937,0.949]
+                color: [0.186, 0.210, 0.184]
     boundaries:
         data: { source: osm }
-        filter: { $zoom: {max: 9}}
         draw:
             lines:
                 order: function() { return feature.sort_key; }
-                color: [0.480, 0.480, 0.480]
-                width: [[8,1px],[9,0px]]
+                color: [0.270, 0.270, 0.270]
+                width: [[8,1.5px],[9,0px]]
     roads:
         data: { source: osm, layer: roads }
-        filter: { $zoom: {min: 7}, not: { kind: [rail, ferry] } }
+        filter: { $zoom: {min: 7}, not: { highway: service, kind: [rail, ferry] } }
         draw:
             lines:
                 order: function() { return feature.sort_key; }
@@ -68,19 +58,19 @@ layers:
             draw:
                 lines:
                     order: function() { return feature.sort_key; }
-                    color: [0.680, 0.244, 0.432]
+                    color: [0.561, 0.557, 0.468]
                     width: [[8,0px], [8,.25px], [11, 2px], [14, 3px], [16, 4px], [17, 10m]]
             link:
                 filter: { is_link: yes } # on- and off-ramps, etc
                 draw:
                     lines:
-                        color: [0.625, 0.534, 0.650]
+                        color: [0.295, 0.322, 0.267]
                         width: [[8,0px], [14, 3px], [16, 5px], [18, 10m]]
                 tunnel-link:
                     filter: {is_tunnel: yes, $zoom: {min: 13} }
                     draw:
                         lines:
-                            color: [0.370, 0.031, 0.186]
+                            color: [0.248, 0.320, 0.320]
         tunnel:
             filter: {is_tunnel: yes }
             draw:
@@ -88,17 +78,19 @@ layers:
                     order: function() { return feature.sort_key; }
                     color: [0.286, 0.322, 0.325]
     station:
-        data: { source: stations }            
+        data: { source: stations }
+        properties: 
+            hovered: -1
         draw:
             wind:
                 interactive: true
-                collide: false
+                # collide: false
                 blend: overlay
                 blend_order: 1
                 size: 50
                 color: |
                     function() {
-                        var hovered = feature.id === global.hovered ? 1 : 0;
+                        var hovered = feature.id === properties.hovered ? 1 : 0;
                         return [ ( Math.floor(feature.id/255))/255, (feature.id%255)/255, hovered ]; 
                     }
         label:
@@ -106,7 +98,7 @@ layers:
             draw:
                 text:
                     blend_order: 0
-                    offset: [0,-60px]
+                    offset: [0,-70px]
                     font:
                         family: Helvetica
                         size: 14px
@@ -164,27 +156,6 @@ styles:
                     }
                     float map (in float value, in float inputMin, in float inputMax, in float outputMin, in float outputMax) {
                         return map(value, inputMin, inputMax, outputMin, outputMax, true); 
-                    }
-    color-tools:
-        shaders:
-            blocks:
-                global: |
-                    // Get the intensity of a color
-                    // ================================
-                    float getIntensity (vec3 c) {
-                        return (c.r+c.g+c.b)/3.0;
-                    }
-                    float getIntensity (vec4 c) {
-                        return getIntensity(c.rgb);
-                    }
-                    //
-                    // Get the Brightness of a color
-                    // ================================
-                    float getBrightness (vec3 c) {
-                        return 0.212655 * c.r + 0.715158 * c.g + 0.072187 * c.b;
-                    }
-                    float getBrightness (vec4 c) {
-                        return getBrightness(c.rgb);
                     }
     geometry-matrices:
         shaders:
@@ -381,15 +352,15 @@ styles:
                         return color;
                     }
                     vec3 TileGrid(){ return mix(TileGrid(1.),TileGrid(2.),fract(u_map_position.z)); }
-# ----------------------- 
-    water:
+    simple-grid:
         base: polygons
         mix: [grid]
         animated: false
         shaders:
             blocks:
                 color: |
-                    color.rgb -= TileGrid()*0.4; 
+                    color.rgb -= TileGrid()*0.4;
+                    
     area:
         base: polygons
         mix: [geometry-matrices, functions-map, functions-aastep, space-tile]
@@ -403,9 +374,9 @@ styles:
                         return aastep(.5+width*0.5,abs(sin(st.y*3.14159265358)));
                     }
                 filter: |
-                    vec2 st = getTileCoords()*2.;
+                    vec2 st = getTileCoords();
                     float pct = pow(1.-map(u_map_position.z,6.,20.,0.,1.),5.0);
-                    color.a = stripes(st,pct*1.608)*.5;
+                    color.a = stripes(st,pct*1.4)*.5;
     wind:
         base: points
         texcoords: true
@@ -413,8 +384,8 @@ styles:
         mix: [functions-aastep, geometry-matrices, shapes-cross, shapes-digits]
         shaders:
             uniforms:
-                u_data: data_image
-                u_param: [596, 1613]
+                u_data: data/data.png
+                u_param: [0,0]
                 u_offset: 0
             blocks: 
                 global: |
@@ -438,60 +409,38 @@ styles:
 
                 color: |
                     float index = getIndex(color.st);
-                    // color = getColor(vec2(mod(u_offset,u_param.x), index));
-                    color = getColor(vec2(mod(u_time,u_param.x), index));
+                    color = getColor(vec2(mod(u_offset,u_param.x), index));
+
                     vec2 st = v_texcoord.xy;
-                    float hud = 0.;
-                    
+                    float hover = v_color.b;
                     float valid = smoothstep(0.5,1.,color.a);
-                    float temp = color.r;
-                    float w_speed = color.g;
-                    float w_deg = color.b*-TWO_PI;
-                    color = vec4(0.);
+                    float hud = 0.;
+                    hud += max(rect(st,2.)-rect(st,1.6)-cross(st,5.,5.),0.)*hover;
                     
-                    if (v_color.b != 0.) {
-                        hud += max(rect(st,2.)-rect(st,1.6)-cross(st,5.,5.),0.);
-                    }
-                        
-                    if (valid > .9 && w_speed != 0.) { 
+                    if (valid > .9 && color.rgb != vec3(1.,0.,0.)) {
+                        float temp = color.r;
+                        float w_speed = color.g;
+                        float w_deg = color.b*PI;
+
                         st -= .5;
-                        st = rotate2D(w_deg) * st;
-                        st *= 1.4;
+                        st = rotate2D(w_deg)* st;
+                        st *= 0.716;
                         st += .5;
 
                         // Arrow
-                        float scale = .5;//(1.-w_speed)*1.3;
+                        float scale = (1.-w_speed)*1.3;
                         float d = shape(st*vec2(scale+.5,.5)+vec2(scale*-.5+.25,.3),3);
-                        color.rgb = mix(vec3(0.,0.,1.),vec3(1.,0.,0.), w_speed);
-                        color.a = 1.0-step(.2,d)*valid;
-                        // color.a *= .2+w_speed;
-                    } else {
-                        color = vec4(vec3(0.176,0.243,0.286),1.0)*cross(st, 0.464, 0.104);
-                    }
-                    
-                    color.rgb -= hud;
-                    color.a += hud;
+                        color.rgb = mix(vec3(0.,0.,1.),vec3(1.,0.,0.),temp);
+                        color.a *= 1.0-step(.2,d)*valid;
 
-                    
-    elevation:
-        base: polygons
-        mix: [color-tools, functions-map]
-        raster: custom
-        shaders: 
-            blocks:
-                color: |
-                    float z = 1.-map(u_map_position.z,6.,14.400,0.,1.);
-                    float b = sampleRaster(0).b+clamp(z*z,0.,.5);
-                    if (b != 0.0) {
-                        color.rgb = mix(vec3(0.039,0.004,0.016), vec3(0.176,0.243,0.286), smoothstep(0.108,0.860,b));
-                        color.rgb = mix(color.rgb, vec3(0.933,0.937,0.949), smoothstep(0.524,1.,b));
+                        // Hud
+                        vec2 vFontSize = vec2(4.0, 5.0);
+                        hud += PrintValue(v_texcoord.xy*vec2(35.), vec2(4.,4.), vFontSize, temp*100., 2., 1.);
+
+                        vec2 offset = v_texcoord.xy-vec2(0.240,-0.280);
+                        hud += rect(offset,.01)-rect(offset,.001);
+                    } else {
+                        color = vec4(vec3(0.365,0.365,0.365),1.0)*cross(st, 0.464, 0.104);
                     }
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
+                    color += hud;
                     

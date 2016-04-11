@@ -127,7 +127,7 @@ function init() {
         scene.getFeatureAt(pixel).then( function (selection) {
             if (selection.feature && selected !== selection.feature.properties.id) {
                 selected = selection.feature.properties.id;
-                scene.config.layers.station.properties.hovered = selected;
+                scene.config.global.hovered = selected;
                 scene.rebuild();
                 if (displayContainer.style.visibility === 'hidden') {
                     displayContainer.style.visibility = 'visible';
