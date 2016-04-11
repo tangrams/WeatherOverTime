@@ -438,8 +438,8 @@ styles:
 
                 color: |
                     float index = getIndex(color.st);
-                    // color = getColor(vec2(mod(u_offset,u_param.x), index));
-                    color = getColor(vec2(mod(u_time,u_param.x), index));
+                    color = getColor(vec2(mod(u_offset,u_param.x), index));
+                    //color = getColor(vec2(mod(u_time,u_param.x), index));
                     vec2 st = v_texcoord.xy;
                     float hud = 0.;
                     
