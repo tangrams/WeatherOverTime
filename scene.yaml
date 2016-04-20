@@ -42,7 +42,7 @@ layers:
         draw:
             elevation:
                 order: function() { return feature.sort_key; }
-                color: [0.270, 0.270, 0.270] 
+                color: [0.388,0.408,0.431]
     water:
         data: { source: osm }
         draw:
