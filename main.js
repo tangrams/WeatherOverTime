@@ -134,7 +134,7 @@ function init() {
                 }
                 display.setUniform('u_id',selection.feature.properties.id,0)
             }
-            else if (selected !== -1) {
+            else if (selected && selected !== -1) {
                 selected = -1;
                 scene.config.layers.station.properties.hovered = selected;
                 scene.rebuild();
