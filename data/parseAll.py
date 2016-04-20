@@ -25,13 +25,14 @@ for filename in files:
         for station in stationsList:
             if station not in database:
                 database[station] = {}
-            for cycle in data[station]['cycles']:
-                hour = getHourlyString(data[station]['cycles'][cycle]['time'])
-                if hour not in database[station]:
-                    database[station][hour] = {}
-                    database[station][hour]['temp'] = data[station]['cycles'][cycle]['temp']
-                    database[station][hour]['wind_speed'] = data[station]['cycles'][cycle]['wind_speed']
-                    database[station][hour]['wind_deg'] = data[station]['cycles'][cycle]['wind_deg']
+            if station in data:
+                for cycle in data[station]['cycles']:
+                    hour = getHourlyString(data[station]['cycles'][cycle]['time'])
+                    if hour not in database[station]:
+                        database[station][hour] = {}
+                        database[station][hour]['temp'] = data[station]['cycles'][cycle]['temp']
+                        database[station][hour]['wind_speed'] = data[station]['cycles'][cycle]['wind_speed']
+                        database[station][hour]['wind_deg'] = data[station]['cycles'][cycle]['wind_deg']
 
 makeDataImage(database, hoursList, stationsList)
 

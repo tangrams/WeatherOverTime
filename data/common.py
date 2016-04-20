@@ -10,12 +10,17 @@ def getReliableStations (files):
         with open(filename) as data_file:
             print(filename)
             data = json.load(data_file)
+            keys = data.keys()
+            # for key in keys:
+            #         stations[key] = {}
+            #         stations[key]['name'] = data[key]['name']
+            #         stations[key]['lng'] = data[key]['lng']
+            #         stations[key]['lat'] = data[key]['lat']
             if index is 0:
                 # Grab the stations of the first record
-                stationsList = data.keys()
+                stationsList = keys
             else:
                 # substract the non present stations on the rest of the records 
-                keys = data.keys()
                 for key in stationsList:
                     if key not in keys:
                         print key,'is not always present, removing it'
@@ -26,9 +31,7 @@ def getReliableStations (files):
                             stations[key] = {}
                             stations[key]['name'] = data[key]['name']
                             stations[key]['lng'] = data[key]['lng']
-                            stations[key]['lat'] = data[key]['lat']
-
-                    
+                            stations[key]['lat'] = data[key]['lat']                    
         index = index + 1;
     return stations
 
