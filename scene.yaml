@@ -35,7 +35,7 @@ cameras:
         type: perspective
 scene:
     background: 
-        color: [0.933,0.937,0.949]
+        color: [0.078,0.075,0.102]
 layers:
     earth:
         data: { source: osm }
