@@ -110,11 +110,9 @@ function init() {
     // Load the image with the data
     var downloadingImage = new Image();
     downloadingImage.onload = function(){
-        // console.log(this.width,this.height);
         scene.styles.wind.shaders.uniforms.u_param = [this.width,this.height];
     };
     downloadingImage.src = 'data/data.png'
-    // window.setInterval('update()', 100);
     window.requestAnimationFrame(update);
 
     var dataDisplay = document.getElementById('display_shader');

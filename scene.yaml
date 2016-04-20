@@ -59,10 +59,10 @@ layers:
         data: { source: osm }
         filter: { $zoom: {max: 9}}
         draw:
-            lines:
+            dots-lines:
                 order: function() { return feature.sort_key; }
-                color: [0.480, 0.480, 0.480]
-                width: [[8,1px],[9,0px]]
+                color: [0.800, 0.759, 0.743]
+                width: 4px
     roads:
         data: { source: osm, layer: roads }
         filter: { $zoom: {min: 7}, not: { kind: [rail, ferry] } }
@@ -95,6 +95,39 @@ layers:
                 lines:
                     order: function() { return feature.sort_key; }
                     color: [0.286, 0.322, 0.325]
+        airport-lines:
+            filter: { kind: minor_road, aeroway: [runway,taxiway] }
+            draw:
+                lines:
+                    color: [0.696, 0.955, 0.946]
+                    width: [[10, 2px], [11, 2.5px], [12, 3px], [13, 4px], [14, 8px], [15, 16px], [16, 32px], [17, 60m]]
+                    outline:
+                        color: [1.0,1.0,1.0]
+            # Features come in at zoom 9, but include mostly minor airports without POIs until z13
+            early:
+                filter: { $zoom: { max: 12 }, not: { landuse_kind: [aerodrome, runway, taxiway] } }
+                draw:
+                    lines:
+                        visible: false
+            not-round:
+                filter: { $zoom: { min: 17 } }
+                draw:
+                    lines:
+                        cap: butt
+            taxiway:
+                filter: { aeroway: taxiway }
+                draw:
+                    lines:
+                        color: [[14, [0.75,0.75,0.75]], [15, [0.6,0.6,0.6]], [16, [0.3,0.3,0.3]], [17, [0.0,0.0,0.0]]]
+                        width: [[14, 1px], [17, 1.5px], [18, 4m]]
+                        outline:
+                            width: 0.5px
+                            color: [1.0,1.0,1.0]
+                early:
+                    filter: { $zoom: { max: 13 } }
+                    draw:
+                        lines:
+                            visible: false
     station:
         data: { source: stations }            
         draw:
@@ -148,6 +181,20 @@ styles:
                     }
                     vec3 TileGrid(){ return mix(TileGrid(1.),TileGrid(2.),fract(u_map_position.z)); }
 # ----------------------- 
+    dots-lines:
+        base: lines
+        mix: functions-map
+        lighting: false
+        texcoords: true
+        blend: overlay
+        shaders:
+            defines:
+                dotSize: .05
+            blocks:
+                color: |
+                    vec2 st = fract(v_texcoord.xy);
+                    st -= .5;
+                    color.a = 1.- step(dotSize, dot(st,st)*2.);
     water:
         base: polygons
         mix: [grid]
