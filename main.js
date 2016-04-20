@@ -149,7 +149,7 @@ function update() {
         if (typeof time === 'string') {
             time = parseFloat(time);
         }
-        time += 0.05;
+        time += 0.5;
         if (time > hours.length) {
             time = 0;
         }
