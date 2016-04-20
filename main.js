@@ -68,6 +68,7 @@ function init() {
             var dataLabel = document.getElementById('date');
 
             var slider = noUiSlider.create(timeSlider, {
+                animate: false,
                 start: 0,
                 step: 0.04,
                 range: {
@@ -97,10 +98,10 @@ function init() {
                 }
             });
 
-            timeSlider.noUiSlider.on('start', function(){
+            timeSlider.noUiSlider.on('start', function() {
                 pause = true;
             });
-            timeSlider.noUiSlider.on('end', function(){
+            timeSlider.noUiSlider.on('end', function() {
                 time = parseFloat(timeSlider.noUiSlider.get());
                 pause = false;
             });
@@ -113,7 +114,8 @@ function init() {
         scene.styles.wind.shaders.uniforms.u_param = [this.width,this.height];
     };
     downloadingImage.src = 'data/data.png'
-    window.setInterval('update()', 100);
+    // window.setInterval('update()', 100);
+    window.requestAnimationFrame(update);
 
     var dataDisplay = document.getElementById('display_shader');
     display = new GlslCanvas(dataDisplay);
@@ -134,7 +136,7 @@ function init() {
                 }
                 display.setUniform('u_id',selection.feature.properties.id,0)
             }
-            else if (selected && selected !== -1) {
+            else if (selected && scene.config.layers.station.properties && selected !== -1) {
                 selected = -1;
                 scene.config.layers.station.properties.hovered = selected;
                 scene.rebuild();
@@ -149,12 +151,15 @@ function update() {
         if (typeof time === 'string') {
             time = parseFloat(time);
         }
-        time += 0.5;
+        time += .1;
         if (time > hours.length) {
             time = 0;
         }
-        window.timeSlider.noUiSlider.set(time);
+        if (window.timeSlider) {
+            window.timeSlider.noUiSlider.set(time);
+        }
     }
+    window.requestAnimationFrame(update);
 }
 
 function formatTime(values, showHour) {

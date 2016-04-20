@@ -221,7 +221,7 @@ styles:
                 color: |
                     float index = getIndex(color.st);
                     float t = u_offset;
-                    // t = u_time*12.;
+                    // t += fract(u_time);
                     
                     color = vec4(0.);
                     float i_now = floor(t);
