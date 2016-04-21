@@ -15,8 +15,8 @@ uniform vec2 u_resolution;
 uniform vec2 u_mouse;
 uniform float u_time;
 
-uniform vec2 u_hour;
-uniform vec2 u_id;
+uniform float u_hour;
+uniform float u_id;
 
 #define CHAR_BLANK 12.0
 #define CHAR_MINUS 11.0
@@ -115,19 +115,19 @@ float rect(vec2 st, float size){
 
 void main() {
     vec2 st = gl_FragCoord.st/u_resolution.xy;
-    float id = u_id.x;
-    float hour = u_hour.x;
-    id = 50.;
-    hour = (u_mouse.x/u_resolution.x)*u_tex0Resolution.x;
+    float id = u_id;
+    float hour = u_hour;
+    // id = 10.;
+    // hour = (u_mouse.x/u_resolution.x)*u_tex0Resolution.x;
 
     vec2 pos = st;
-    pos.y = 1.-pos.y;
+    // pos.y = 1.-pos.y;
     pos.y /= u_tex0Resolution.y;
-    
     pos.y += id/u_tex0Resolution.y;
+    pos.y = 1.-pos.y;
     vec4 tex = texture2D(u_tex0,pos);
     
-    float t = mod(hour,u_tex0Resolution.x)/u_tex0Resolution.x;
+    float t = fract(hour/u_tex0Resolution.x);
     vec3 color = tex.rgb*tex.a;
 
     vec2 i_st = floor(st*vec2(1.,3.));
@@ -141,18 +141,23 @@ void main() {
     color += step(t-0.0005,st.x)*step(st.x,t+0.0005);
 
     vec2 vFontSize = vec2(4.0, 5.0);
-    vec2 currentPos = vec2(1.-id/u_tex0Resolution.y,t);
-    st.x -= t;
+    vec2 currentPos = vec2(t,1.-id/u_tex0Resolution.y);
+    tex = texture2D(u_tex0, currentPos);
 
-    vec2 offset = st - vec2(0.008,-0.280);
+    vec2 offset = st;
     offset.x *= u_resolution.x/u_resolution.y;
+    offset -= vec2(.4,-0.25);
+    color += rect(offset,.01)-rect(offset,.001);
+    offset -= vec2(.0,+0.67);
     color += rect(offset,.01)-rect(offset,.001);
 
-    st *= 35.;
+    st.x -= t;
+    st *= 21.;
     st.x *= u_resolution.x/u_resolution.y;
-   
-    color += PrintValue(st, vec2(0.,3.), vFontSize, texture2D(u_tex0,currentPos).x*100., 2., 1.);
     
+    color += PrintValue(st, vec2(-2.,1.), vFontSize, tex.x*100., 2., 1.);
+    color += PrintValue(st, vec2(2.,8.), vFontSize, tex.y*51., 3., 0.);
+    color += PrintValue(st, vec2(2.,15.), vFontSize, tex.z*360., 3., 0.);
 
     gl_FragColor = vec4( color , 1.0);
 }

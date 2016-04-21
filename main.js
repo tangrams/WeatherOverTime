@@ -94,7 +94,7 @@ function init() {
                 scene.styles.wind.shaders.uniforms.u_offset = t;
                 dataLabel.innerHTML = formatTime(values, true);
                 if (display) {
-                    display.setUniform('u_hour',t,0);
+                    display.setUniform('u_hour',t);
                 }
             });
 
@@ -117,6 +117,7 @@ function init() {
 
     var dataDisplay = document.getElementById('display_shader');
     display = new GlslCanvas(dataDisplay);
+    // display.setUniform('u_texture','data/data.png',{filtering:'nearest'});
 
     displayContainer = document.getElementById('display');
     displayContainer.style.visibility = 'hidden';
@@ -132,7 +133,8 @@ function init() {
                 if (displayContainer.style.visibility === 'hidden') {
                     displayContainer.style.visibility = 'visible';
                 }
-                display.setUniform('u_id',selection.feature.properties.id,0)
+                display.setUniform('u_id',selection.feature.properties.id)
+                display.canvas.style.height = "50px";
             }
             else if (selected && scene.config.layers.station.properties && selected !== -1) {
                 selected = -1;
