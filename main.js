@@ -29,7 +29,7 @@ map = (function () {
     // Create a Tangram Layer
     var layer = Tangram.leafletLayer({
         scene: 'scene.yaml',
-        attribution: '<a href="https://twitter.com/patriciogv" target="_blank">@patriciogv</a> | <a href="https://mapzen.com/tangram" target="_blank">Tangram</a> | <a href="https://mapzen.com/" target="_blank">Mapzen</a> | &copy; OSM contributors'
+        attribution: '<a href="https://twitter.com/patriciogv" target="_blank">@patriciogv</a> | <a href="https://mapzen.com/tangram" target="_blank">Tangram</a> | <a href="https://mapzen.com/" target="_blank">Mapzen</a> | &copy; OSM contributors | <a href="http://stamen.com/" target="_blank">Stamen</a>'
     });
 
     window.layer = layer;
