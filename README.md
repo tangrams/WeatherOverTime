@@ -2,7 +2,7 @@
 
 ## Visualizing Weather Over Time with Tangram.js
 
-This [Tangram JS](https://github.com/tangrams/tangram) example is the continuation of [this other tutorial about 3rd party APIs](https://github.com/tangrams/WeatherNow). This time instead of getting the data from a 3rd party API, we are gathering the data from [US NOAA's Weather Stations](http://weather.noaa.gov/pub/data/observations/metar/cycles) using a [python script](https://github.com/tangrams/WeatherOverTime/blob/gh-pages/data/getToday.py) on a [RaspberryPi](https://www.raspberrypi.org/). We encode all the data into an image, then decode it, display it, and animate it using shaders inside [Tangram JS](https://github.com/tangrams/tangram).
+This [Tangram JS](https://github.com/tangrams/tangram) example is the continuation of [this other tutorial about 3rd party APIs](https://github.com/tangrams/WeatherNow). This time instead of getting the data from a 3rd party API, we are gathering the data from [US NOAA's Weather Stations](http://weather.noaa.gov/pub/data/observations/metar/cycles) using a [python script](https://github.com/tangrams/WeatherOverTime/blob/gh-pages/data/getToday.py) on a [Raspberry Pi](https://www.raspberrypi.org/). We encode all the data into an image, then decode it, display it, and animate it using shaders inside [Tangram JS](https://github.com/tangrams/tangram).
 
 ### How it works
 
