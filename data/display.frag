@@ -117,19 +117,15 @@ void main() {
     vec2 st = gl_FragCoord.st/u_resolution.xy;
     float id = u_id;
     float hour = u_hour;
-    // id = 10.;
+    // id = 902.;
     // hour = (u_mouse.x/u_resolution.x)*u_tex0Resolution.x;
 
+    // Decompose RGB channels
     vec2 pos = st;
-    // pos.y = 1.-pos.y;
-    pos.y /= u_tex0Resolution.y;
-    pos.y += id/u_tex0Resolution.y;
+    pos.y = id/u_tex0Resolution.y;
     pos.y = 1.-pos.y;
     vec4 tex = texture2D(u_tex0,pos);
-    
-    float t = fract(hour/u_tex0Resolution.x);
-    vec3 color = tex.rgb*tex.a;
-
+    vec3 color = tex.rgb;//*tex.a;
     vec2 i_st = floor(st*vec2(1.,3.));
     color = mix(vec3(0.),
                 color,
@@ -137,12 +133,17 @@ void main() {
                      (i_st.y == 1.)?1.:0.,
                      (i_st.y == 2.)?1.:0.));
 
+    // Draw Dial
+    float t = fract(hour/u_tex0Resolution.x);
     color *= 1. + step(t-0.002,st.x)*step(st.x,t+0.002)*2.;
     color += step(t-0.0005,st.x)*step(st.x,t+0.0005);
 
     vec2 vFontSize = vec2(4.0, 5.0);
-    vec2 currentPos = vec2(t,1.-id/u_tex0Resolution.y);
+    vec2 currentPos = vec2(t, id/u_tex0Resolution.y);
+    currentPos.y = 1.-currentPos.y;
     tex = texture2D(u_tex0, currentPos);
+
+    st.x -= t;
 
     vec2 offset = st;
     offset.x *= u_resolution.x/u_resolution.y;
@@ -151,10 +152,9 @@ void main() {
     offset -= vec2(.0,+0.67);
     color += rect(offset,.01)-rect(offset,.001);
 
-    st.x -= t;
     st *= 21.;
     st.x *= u_resolution.x/u_resolution.y;
-    
+
     color += PrintValue(st, vec2(-2.,1.), vFontSize, tex.x*100., 2., 1.);
     color += PrintValue(st, vec2(2.,8.), vFontSize, tex.y*51., 3., 0.);
     color += PrintValue(st, vec2(2.,15.), vFontSize, tex.z*360., 3., 0.);
