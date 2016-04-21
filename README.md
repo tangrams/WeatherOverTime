@@ -204,3 +204,10 @@ Once all the data is ready to be display use the wind direction to rotate the co
 Not how it use [an extra image with a color gradient ](https://github.com/tangrams/WeatherOverTime/blob/gh-pages/scene.yaml#L25-L26) to "tint" the arrow with a color that express the temperature.
 
 ![](imgs/scale.png)
+
+
+## Conclusion
+
+Using [noUISlider component](http://refreshless.com/nouislider/) we can hook up the time offset to a slider and animate it. Interacting with this dataset, is when all this complicated technique pays off, the result is smooth, flexible and efficient.
+
+![](imgs/00.gif)
