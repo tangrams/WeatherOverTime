@@ -92,7 +92,7 @@
                 position: absolute;
                 width: 90.5%;
                 height: 45px;
-                bottom: 77px;
+                bottom: 83px;
                 left: 50%;
                 transform: translate(-50%,0);
                 z-index: 99;
@@ -113,11 +113,11 @@
             }
 
             .green_label {
-                top: 14px;
+                top: 17px;
             }
 
             .red_label {
-                top: 28px;
+                top: 34px;
             }
 
             #display_shader {
@@ -155,9 +155,9 @@
         <div id="date"></div>
 
         <div id="display">
-            <p class="display_label blue_label"> Wind Direction</p>
-            <p class="display_label green_label"> Wind Speed</p>
-            <p class="display_label red_label"> Temperature</p>
+            <p class="display_label blue_label"> Dir.</p>
+            <p class="display_label green_label"> Speed</p>
+            <p class="display_label red_label"> Temp.</p>
             <canvas id="display_shader" data-fragment-url="data/display.frag" data-textures="data/data.png" width="800" height="45"></canvas>
         </div>
 
