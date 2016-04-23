@@ -2,25 +2,25 @@
 
 ## Visualizing Weather over time with Tangram.js
 
-This [Tangram JS](https://github.com/tangrams/tangram) example is the continuation of [this other tutorial about 3er party APIs](https://github.com/tangrams/WeatherNow). This time instead of getting the data from a 3er party API, we are gathering the data from [US NOAA's Weather Stations](http://weather.noaa.gov/pub/data/observations/metar/cycles) using a [python script](https://github.com/tangrams/WeatherOverTime/blob/gh-pages/data/getToday.py) on a [RaspberryPi](https://www.raspberrypi.org/), enconding this big data sent into an image to then display and animate using shaders inside [Tangram JS](https://github.com/tangrams/tangram).
+This [Tangram JS](https://github.com/tangrams/tangram) example is the continuation of [a tutorial about 3rd party APIs](https://github.com/tangrams/WeatherNow). In this case, we are gathering the data from [US NOAA's Weather Stations](http://weather.noaa.gov/pub/data/observations/metar/cycles) using a [python script](https://github.com/tangrams/WeatherOverTime/blob/gh-pages/data/getToday.py) on a [RaspberryPi](https://www.raspberrypi.org/), encoding "big data" into an image. We then we display and animate it using shaders inside [Tangram JS](https://github.com/tangrams/tangram).
 
-### How it works?
+### How does it work?
 
 ![](imgs/rpi.jpg)
 
-Each day of the last 2 months [this script](https://github.com/tangrams/WeatherOverTime/blob/gh-pages/data/getToday.py) running in the [RaspberryPi](https://www.raspberrypi.org/) gathers the last 24hs of data.
+Each day over the last two months [this script](https://github.com/tangrams/WeatherOverTime/blob/gh-pages/data/getToday.py) running on a [RaspberryPi](https://www.raspberrypi.org/) has gathered the last 24 hours of weather data.
 
 ```bash
 python data/getToday.py
 ```
 
-Then [progressively builds add an image](https://github.com/tangrams/WeatherOverTime/blob/gh-pages/data/parseAll.py) containing all the information of the last two months. For it, the temperature, wind speed and wind direction of each US NOAA station is encoded in to a single pixel. 
+It then [progressively builds an image](https://github.com/tangrams/WeatherOverTime/blob/gh-pages/data/parseAll.py) containing all the information over the last two months. In it, the temperature, wind speed and wind direction of each US NOAA station is encoded into a single pixel. 
 
 ```bash
 python data/parseAll.py
 ```
 
-The RED channel will contain the temperature for each hour, the GREEN the wind speed and BLUE the wind rotation.
+The `RED` channel contains the temperature for each hour. Wind speed is in the `GREEN` channel, and `BLUE` stores wind direction.
 
 ```python
 def getColorFor(data, hour, station):
@@ -31,21 +31,21 @@ def getColorFor(data, hour, station):
         return None
 ```
 
-Each station will have row in the finnal image, while each column will be a single sample per hour of the last two months.
+Each station will have row in the final image, while each column will be a single sample per hour over the last two months.
 
 ![](data/data.png)
 
-Looking closelly to the previus image, the amount of red conform we move in time (X axist) vary between day and night forming bumps or waves. Also we can differenciate redish clusters of columns (hot weeks) from greenish once (cooler weeks). In pararllel we can see that specific stations (more constant blur or green rows) that are located on cold places where the temperature is constantly low. 
+Looking closely to the previous image, the amount of red confirms we are moving in time (X axis), varying between day and night, forming bumps or waves. Also we can differentiate reddish clusters of columns (hot weeks) from greenish ones (cooler weeks). In parallel we can see specific stations (more constant blue or green rows) located in cold places where the temperature is consistently low. 
 
-The presence of wind will make more green or yellow pixels. We can see that they seams to come an go with some coherence.
+The presence of wind will create more green or yellow pixels. We can see them come and go with some coherence.
 
-### Why encoding data into images?
+### Why encode data into images?
 
-By encoding big data bases in images allows you to compress more than 300Mb of data into a single image of arround 3Mb. Also in this format, data can be upload to the graphic card unit (GPU) in a single call of the the WebGL/OpenGL driver.  Once it is in the GPU memory, the data can be retreve, process and animated at high speed.
+Encoding big databases into images allows us to compress more than 300Mb of data into a single image of around 3Mb. Also in this format, data can be uploaded to the graphic card unit (GPU) in a single call of the the WebGL/OpenGL driver.  Once it is in the GPU memory, the data can be retrieved, processed and animated at high speed.
 
 ### Loading this data to Tangram JS
 
-Once the data is encoded into the image can be loaded to Tangram map through the [```scene.yaml```](https://github.com/tangrams/WeatherOverTime/blob/gh-pages/scene.yaml#L21-L24) file:
+Once the data is encoded into the image, it can be loaded to Tangram map through the [```scene.yaml```](https://github.com/tangrams/WeatherOverTime/blob/gh-pages/scene.yaml#L21-L24) file:
 
 ```yaml
 ...
@@ -56,7 +56,7 @@ textures:
 ...
 ```
 
-Together with a [GeoJSON file containing the position of each station](https://github.com/tangrams/WeatherOverTime/blob/gh-pages/scene.yaml#L15-L17) as a POIs:
+Together with a [GeoJSON file containing the position of each station](https://github.com/tangrams/WeatherOverTime/blob/gh-pages/scene.yaml#L15-L17) as a POIs...
 
 ```YAML
 sources:
@@ -66,7 +66,7 @@ sources:
         url:   data/stations.geojson
 ```
 
-We filter this POIs into a ```layer``` to be render with a custom ```style```. We also assing a specific color to each point depending in the ```id``` of the feature.
+...we filter these POIs into a ```layer``` to be rendered with a custom ```style```. We also assign a specific color to each point depending in the ```id``` of the feature.
 
 ```YAML
 layers:
@@ -88,9 +88,9 @@ layers:
         ...
 ```
 
-As you can see in the last lines, each ```feature.id``` is encoded into the geometry color of each point, together with a flag that checks if the station have been selected or not (BLUE channel).
+As you can see in the last lines, each ```feature.id``` is encoded into the geometry color of each point, together with a flag that checks if the station has been selected or not (`BLUE` channel).
 
-The custom style for each station point, will be rendered with the following code that draws an arrow. Te arrow is rotated, scale and colored according the wind direction, wind speed and temperature.
+The custom style for each station point will be rendered with the following code that draws an arrow. The arrow is rotated, scaled and colored according the wind direction, wind speed and temperature.
 
 ```YAML
 styles:
@@ -168,14 +168,14 @@ styles:
                     color += max(rect(st,2.)-rect(st,1.6)-cross(st,5.,5.),0.)*v_color.b;
 ```
 
-Altough it's a lot going on in this style. Is important to see how the data is fetch and decode from the texture. To locate the right pixel use the function ```getIndex()``` to retrieve the right row (Y axist) where the data that particular station is located together with the ```u_offset``` uniform that contain the time offset (X axis).
+Although there's a lot going on in this style, it is important to see how the data is fetched and decoded from the texture. To locate the right pixel, use the function ```getIndex()``` to retrieve the right row (Y axis) where the data for that particular station is located, together with the ```u_offset``` uniform that contains the time offset (X axis).
 
 ```glsl
     float index = getIndex(color.st);
     float t = u_offset;
 ```
 
-Once it have the right positon of the pixel it gets their interpolated data using ```getColor()``` and decode their values. 
+Once we have the right positon of the pixel, we can get its interpolated data using ```getColor()``` and decode the values. 
 
 ```glsl
     float w_deg = mix(dir_now, dir_next, f_now)*-TWO_PI;
@@ -183,9 +183,9 @@ Once it have the right positon of the pixel it gets their interpolated data usin
     float temp = data_interpol.r;
 ```
 
-**Note**: to correctly interpolate the wind direction, need to make some extra calculations, to smootly rotate in the shorter direction of the target direction.
+**Note**: to correctly interpolate the wind direction, we need to make some extra calculations to smoothly rotate in the shorter direction of the target angle.
 
-Once all the data is ready to be display use the wind direction to rotate the coordenates on the fragment shader, and the wind speed to scale the shape in and out.
+Once all the data is ready to be displayed, use the wind direction to rotate the coordinates in the fragment shader, and the wind speed to scale the shape in and out.
 
 ```glsl
     // Arrow
@@ -201,13 +201,13 @@ Once all the data is ready to be display use the wind direction to rotate the co
     color += max(rect(st,2.)-rect(st,1.6)-cross(st,5.,5.),0.)*v_color.b;
 ```
 
-Not how it use [an extra image with a color gradient ](https://github.com/tangrams/WeatherOverTime/blob/gh-pages/scene.yaml#L25-L26) to "tint" the arrow with a color that express the temperature.
+Note how it uses [an extra image with a color gradient ](https://github.com/tangrams/WeatherOverTime/blob/gh-pages/scene.yaml#L25-L26) to "tint" the arrow with a color that expresses the temperature.
 
 ![](imgs/scale.png)
 
 
 ## Conclusion
 
-Using [noUISlider component](http://refreshless.com/nouislider/) we can hook up the time offset to a slider and animate it. Interacting with this dataset, is when all this complicated technique pays off, the result is smooth, flexible and efficient.
+Using [noUISlider component](http://refreshless.com/nouislider/) we can hook up the time offset to a slider and animate it. While the techniques are complex, it pays off with a smooth, flexible and efficient interaction with a very large dataset.
 
 ![](imgs/00.gif)
