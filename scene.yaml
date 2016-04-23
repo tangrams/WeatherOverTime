@@ -1,11 +1,11 @@
 ﻿# Author: Paitricio Gonzalez Vivo @patricio 2016
 import:
-    - https://cdn.rawgit.com/tangrams/tangram-sandbox/gh-pages/modules/color/tools.yaml
-    - https://cdn.rawgit.com/tangrams/tangram-sandbox/gh-pages/modules/functions/map.yaml
-    - https://cdn.rawgit.com/tangrams/tangram-sandbox/gh-pages/modules/functions/aastep.yaml
-    - https://cdn.rawgit.com/tangrams/tangram-sandbox/gh-pages/modules/geometry/matrices.yaml
-    - https://cdn.rawgit.com/tangrams/tangram-sandbox/gh-pages/modules/space/tile.yaml
-    - https://cdn.rawgit.com/tangrams/tangram-sandbox/gh-pages/modules/shapes/cross.yaml
+    - http://tangrams.github.io/blocks/color/tools.yaml
+    - http://tangrams.github.io/blocks/functions/map.yaml
+    - http://tangrams.github.io/blocks/functions/aastep.yaml
+    - http://tangrams.github.io/blocks/geometry/matrices.yaml
+    - http://tangrams.github.io/blocks/space/tile.yaml
+    - http://tangrams.github.io/blocks/shapes/cross.yaml
 
 sources:
     osm:
