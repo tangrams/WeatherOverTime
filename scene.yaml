@@ -4,7 +4,7 @@ import:
     - http://tangrams.github.io/blocks/functions/map.yaml
     - http://tangrams.github.io/blocks/functions/aastep.yaml
     - http://tangrams.github.io/blocks/geometry/matrices.yaml
-    - http://tangrams.github.io/blocks/space/tile.yaml
+    - http://tangrams.github.io/blocks/patterns/grid.yaml
     - http://tangrams.github.io/blocks/shapes/cross.yaml
 
 sources:
@@ -155,31 +155,6 @@ layers:
                         fill: white
                         stroke: { color: [0.055, 0.055, 0.055], width: 5 }
 styles:
-    grid:
-        mix: space-tile
-        shaders:
-            blocks:
-                global: |
-                    //  Simple Grid
-                    //=============================
-                    float grid(in vec2 st, in float res, in float press){
-                        st = fract(st*res);
-                        return 1.0-(step(press*res,st.x) * step(press*res,st.y));
-                    }
-                    float grid(in vec2 st, in float res){
-                        return grid(st,res,0.005);
-                    }
-                    // GridTile
-                    //=============================
-                    vec3 TileGrid(float res){
-                        vec2 st = getTileCoords().xy *100.*res;
-                        vec3 color = vec3(0.0);
-                        float press = 0.5;//0.5+(1.0-fract(u_map_position.z))*0.1;
-                        color += 0.1*grid(st,0.1,press);
-                        color += 0.2*grid(st,0.01,press);
-                        return color;
-                    }
-                    vec3 TileGrid(){ return mix(TileGrid(1.),TileGrid(2.),fract(u_map_position.z)); }
 # ----------------------- 
     dots-lines:
         base: lines
@@ -197,11 +172,11 @@ styles:
                     color.a = 1.- step(dotSize, dot(st,st)*2.);
     water:
         base: polygons
-        mix: [grid]
+        mix: [patterns-grid]
         shaders:
             blocks:
                 color: |
-                    color.rgb += TileGrid()*0.4;
+                    color.rgb += tileGrid()*0.4;
     elevation:
         base: polygons
         mix: [color-tools, functions-map]
