@@ -21710,21 +21710,6 @@
             "geometry": {
                 "type": "Point",
                 "coordinates": [
-                    -87.41666666666667,
-                    44.85
-                ]
-            },
-            "type": "Feature",
-            "properties": {
-                "kind": "station",
-                "id": 1447,
-                "name": "Sturgeon Bay, WI"
-            }
-        },
-        {
-            "geometry": {
-                "type": "Point",
-                "coordinates": [
                     -80.22111111111111,
                     27.18166666666667
                 ]
@@ -21732,7 +21717,7 @@
             "type": "Feature",
             "properties": {
                 "kind": "station",
-                "id": 1448,
+                "id": 1447,
                 "name": "Stuart, Witham Field Airport, FL"
             }
         },
@@ -21747,7 +21732,7 @@
             "type": "Feature",
             "properties": {
                 "kind": "station",
-                "id": 1449,
+                "id": 1448,
                 "name": "Sioux City, Sioux Gateway Airport, IA"
             }
         },
@@ -21762,7 +21747,7 @@
             "type": "Feature",
             "properties": {
                 "kind": "station",
-                "id": 1450,
+                "id": 1449,
                 "name": "Junction, Kimble County Airport, TX"
             }
         },
@@ -21777,7 +21762,7 @@
             "type": "Feature",
             "properties": {
                 "kind": "station",
-                "id": 1451,
+                "id": 1450,
                 "name": "Fairfield / Travis Air Force Base, CA"
             }
         },
@@ -21792,7 +21777,7 @@
             "type": "Feature",
             "properties": {
                 "kind": "station",
-                "id": 1452,
+                "id": 1451,
                 "name": "Oak Island, Brunswick County Airport, NC"
             }
         },
@@ -21807,7 +21792,7 @@
             "type": "Feature",
             "properties": {
                 "kind": "station",
-                "id": 1453,
+                "id": 1452,
                 "name": "Superior, Richard I. Bong Airport, WI"
             }
         },
@@ -21822,7 +21807,7 @@
             "type": "Feature",
             "properties": {
                 "kind": "station",
-                "id": 1454,
+                "id": 1453,
                 "name": "St. Louis, Spirit Of St. Louis Airport, MO"
             }
         },
@@ -21837,7 +21822,7 @@
             "type": "Feature",
             "properties": {
                 "kind": "station",
-                "id": 1455,
+                "id": 1454,
                 "name": "Smyrna, TN"
             }
         },
@@ -21852,7 +21837,7 @@
             "type": "Feature",
             "properties": {
                 "kind": "station",
-                "id": 1456,
+                "id": 1455,
                 "name": "Osceola, L O Simenstad Municipal Airport, WI"
             }
         },
@@ -21867,7 +21852,7 @@
             "type": "Feature",
             "properties": {
                 "kind": "station",
-                "id": 1457,
+                "id": 1456,
                 "name": "Baker City, Baker City Municipal Airport, OR"
             }
         },
@@ -21882,7 +21867,7 @@
             "type": "Feature",
             "properties": {
                 "kind": "station",
-                "id": 1458,
+                "id": 1457,
                 "name": "Coldwater, Branch County Memorial Airport, MI"
             }
         },
@@ -21897,7 +21882,7 @@
             "type": "Feature",
             "properties": {
                 "kind": "station",
-                "id": 1459,
+                "id": 1458,
                 "name": "Cleveland, Burke Lakefront Airport, OH"
             }
         },
@@ -21912,7 +21897,7 @@
             "type": "Feature",
             "properties": {
                 "kind": "station",
-                "id": 1460,
+                "id": 1459,
                 "name": "Falfurrias, Brooks County Airport, TX"
             }
         },
@@ -21927,7 +21912,7 @@
             "type": "Feature",
             "properties": {
                 "kind": "station",
-                "id": 1461,
+                "id": 1460,
                 "name": "Brooksville, Hernando County Airport, FL"
             }
         },
@@ -21942,7 +21927,7 @@
             "type": "Feature",
             "properties": {
                 "kind": "station",
-                "id": 1462,
+                "id": 1461,
                 "name": "Beckley, Raleigh County Memorial Airport, WV"
             }
         },
@@ -21957,7 +21942,7 @@
             "type": "Feature",
             "properties": {
                 "kind": "station",
-                "id": 1463,
+                "id": 1462,
                 "name": "Macomb, Macomb Municipal Airport, IL"
             }
         },
@@ -21972,7 +21957,7 @@
             "type": "Feature",
             "properties": {
                 "kind": "station",
-                "id": 1464,
+                "id": 1463,
                 "name": "Brookings Automatic Weather Observing / Reporting System, SD"
             }
         },
@@ -21987,7 +21972,7 @@
             "type": "Feature",
             "properties": {
                 "kind": "station",
-                "id": 1465,
+                "id": 1464,
                 "name": "East Milton, MA"
             }
         },
@@ -22002,7 +21987,7 @@
             "type": "Feature",
             "properties": {
                 "kind": "station",
-                "id": 1466,
+                "id": 1465,
                 "name": "Fort Irwin/Barstow, Bicycle Lake Army Airfield, CA"
             }
         },
@@ -22017,7 +22002,7 @@
             "type": "Feature",
             "properties": {
                 "kind": "station",
-                "id": 1467,
+                "id": 1466,
                 "name": "Ortonville, Ortonville Muncipal-Martinson Field Airport, MN"
             }
         },
@@ -22032,7 +22017,7 @@
             "type": "Feature",
             "properties": {
                 "kind": "station",
-                "id": 1468,
+                "id": 1467,
                 "name": "Bay City, Bay City Municipal Airport, TX"
             }
         },
@@ -22047,7 +22032,7 @@
             "type": "Feature",
             "properties": {
                 "kind": "station",
-                "id": 1469,
+                "id": 1468,
                 "name": "Owensboro / Daviess, KY"
             }
         },
@@ -22062,7 +22047,7 @@
             "type": "Feature",
             "properties": {
                 "kind": "station",
-                "id": 1470,
+                "id": 1469,
                 "name": "Owatonna Automatic Weather Observing / Reporting System, MN"
             }
         },
@@ -22077,7 +22062,7 @@
             "type": "Feature",
             "properties": {
                 "kind": "station",
-                "id": 1471,
+                "id": 1470,
                 "name": "Norwood, Norwood Memorial Airport, MA"
             }
         },
@@ -22092,7 +22077,7 @@
             "type": "Feature",
             "properties": {
                 "kind": "station",
-                "id": 1472,
+                "id": 1471,
                 "name": "The Villages, FL"
             }
         },
@@ -22107,7 +22092,7 @@
             "type": "Feature",
             "properties": {
                 "kind": "station",
-                "id": 1473,
+                "id": 1472,
                 "name": "Burley, Burley Municipal Airport, ID"
             }
         },
@@ -22122,7 +22107,7 @@
             "type": "Feature",
             "properties": {
                 "kind": "station",
-                "id": 1474,
+                "id": 1473,
                 "name": "Lihue, Lihue Airport, HI"
             }
         },
@@ -22137,7 +22122,7 @@
             "type": "Feature",
             "properties": {
                 "kind": "station",
-                "id": 1475,
+                "id": 1474,
                 "name": "Statesboro, Statesboro-Bulloch County Airport, GA"
             }
         },
@@ -22152,7 +22137,7 @@
             "type": "Feature",
             "properties": {
                 "kind": "station",
-                "id": 1476,
+                "id": 1475,
                 "name": "Oklahoma City, Will Rogers World Airport, OK"
             }
         },
@@ -22167,7 +22152,7 @@
             "type": "Feature",
             "properties": {
                 "kind": "station",
-                "id": 1477,
+                "id": 1476,
                 "name": "Oceanside, Oceanside Municipal Airport, CA"
             }
         },
@@ -22182,7 +22167,7 @@
             "type": "Feature",
             "properties": {
                 "kind": "station",
-                "id": 1478,
+                "id": 1477,
                 "name": "Mason City, Mason City Municipal Airport, IA"
             }
         },
@@ -22197,7 +22182,7 @@
             "type": "Feature",
             "properties": {
                 "kind": "station",
-                "id": 1479,
+                "id": 1478,
                 "name": "Okmulgee, Okmulgee Municipal Airport, OK"
             }
         },
@@ -22212,7 +22197,7 @@
             "type": "Feature",
             "properties": {
                 "kind": "station",
-                "id": 1480,
+                "id": 1479,
                 "name": "Kokomo, Kokomo Municipal Airport, IN"
             }
         },
@@ -22227,7 +22212,7 @@
             "type": "Feature",
             "properties": {
                 "kind": "station",
-                "id": 1481,
+                "id": 1480,
                 "name": "Winchester Regional, VA"
             }
         },
@@ -22242,7 +22227,7 @@
             "type": "Feature",
             "properties": {
                 "kind": "station",
-                "id": 1482,
+                "id": 1481,
                 "name": "Sacramento, McClellan Airfield Airport, CA"
             }
         },
@@ -22257,7 +22242,7 @@
             "type": "Feature",
             "properties": {
                 "kind": "station",
-                "id": 1483,
+                "id": 1482,
                 "name": "McComb, McComb / Pike County / John E Lewis Field Airport, MS"
             }
         },
@@ -22272,7 +22257,7 @@
             "type": "Feature",
             "properties": {
                 "kind": "station",
-                "id": 1484,
+                "id": 1483,
                 "name": "Merced, Merced Municipal Airport, CA"
             }
         },
@@ -22287,7 +22272,7 @@
             "type": "Feature",
             "properties": {
                 "kind": "station",
-                "id": 1485,
+                "id": 1484,
                 "name": "Macinac Island, Mackinac Island Airport, MI"
             }
         },
@@ -22302,7 +22287,7 @@
             "type": "Feature",
             "properties": {
                 "kind": "station",
-                "id": 1486,
+                "id": 1485,
                 "name": "Macdill Air Force Base, Fl., FL"
             }
         },
@@ -22317,7 +22302,7 @@
             "type": "Feature",
             "properties": {
                 "kind": "station",
-                "id": 1487,
+                "id": 1486,
                 "name": "Kansas City, Kansas City International Airport, MO"
             }
         },
@@ -22332,7 +22317,7 @@
             "type": "Feature",
             "properties": {
                 "kind": "station",
-                "id": 1488,
+                "id": 1487,
                 "name": "McCook, McCook Municipal Airport, NE"
             }
         },
@@ -22347,7 +22332,7 @@
             "type": "Feature",
             "properties": {
                 "kind": "station",
-                "id": 1489,
+                "id": 1488,
                 "name": "Fort Leonard Wood, MO"
             }
         },
@@ -22362,7 +22347,7 @@
             "type": "Feature",
             "properties": {
                 "kind": "station",
-                "id": 1490,
+                "id": 1489,
                 "name": "Orlando, Orlando International Airport, FL"
             }
         },
@@ -22377,7 +22362,7 @@
             "type": "Feature",
             "properties": {
                 "kind": "station",
-                "id": 1491,
+                "id": 1490,
                 "name": "Greenville, ME"
             }
         },
@@ -22392,7 +22377,7 @@
             "type": "Feature",
             "properties": {
                 "kind": "station",
-                "id": 1492,
+                "id": 1491,
                 "name": "Grants, Grants-Milan Municipal Airport, NM"
             }
         },
@@ -22407,7 +22392,7 @@
             "type": "Feature",
             "properties": {
                 "kind": "station",
-                "id": 1493,
+                "id": 1492,
                 "name": "Gainesville, Gainesville Regional Airport, FL"
             }
         },
@@ -22422,7 +22407,7 @@
             "type": "Feature",
             "properties": {
                 "kind": "station",
-                "id": 1494,
+                "id": 1493,
                 "name": "International Falls, Falls International Airport, MN"
             }
         },
@@ -22437,7 +22422,7 @@
             "type": "Feature",
             "properties": {
                 "kind": "station",
-                "id": 1495,
+                "id": 1494,
                 "name": "Hillsboro, Hillsboro Municipal Airport, TX"
             }
         },
@@ -22452,7 +22437,7 @@
             "type": "Feature",
             "properties": {
                 "kind": "station",
-                "id": 1496,
+                "id": 1495,
                 "name": "Winslow, Winslow Municipal Airport, AZ"
             }
         },
@@ -22467,7 +22452,7 @@
             "type": "Feature",
             "properties": {
                 "kind": "station",
-                "id": 1497,
+                "id": 1496,
                 "name": "Winston Salem, Smith Reynolds Airport, NC"
             }
         },
@@ -22482,7 +22467,7 @@
             "type": "Feature",
             "properties": {
                 "kind": "station",
-                "id": 1498,
+                "id": 1497,
                 "name": "Seminole, Gaines County Airport, TX"
             }
         },
@@ -22497,7 +22482,7 @@
             "type": "Feature",
             "properties": {
                 "kind": "station",
-                "id": 1499,
+                "id": 1498,
                 "name": "Indian Springs Gunnery Range, NV"
             }
         },
@@ -22512,7 +22497,7 @@
             "type": "Feature",
             "properties": {
                 "kind": "station",
-                "id": 1500,
+                "id": 1499,
                 "name": "Kearney Municipal Automatic Weather Observing / Reporting System, NE"
             }
         },
@@ -22527,7 +22512,7 @@
             "type": "Feature",
             "properties": {
                 "kind": "station",
-                "id": 1501,
+                "id": 1500,
                 "name": "Eau Claire, Chippewa Valley Regional Airport, WI"
             }
         },
@@ -22542,7 +22527,7 @@
             "type": "Feature",
             "properties": {
                 "kind": "station",
-                "id": 1502,
+                "id": 1501,
                 "name": "Phoenix, Phoenix Sky Harbor International Airport, AZ"
             }
         },
@@ -22557,7 +22542,7 @@
             "type": "Feature",
             "properties": {
                 "kind": "station",
-                "id": 1503,
+                "id": 1502,
                 "name": "New Philadelphia, Harry Clever Field, OH"
             }
         },
@@ -22572,7 +22557,7 @@
             "type": "Feature",
             "properties": {
                 "kind": "station",
-                "id": 1504,
+                "id": 1503,
                 "name": "Newport News, Newport News / Williamsburg International Airport, VA"
             }
         },
@@ -22587,7 +22572,7 @@
             "type": "Feature",
             "properties": {
                 "kind": "station",
-                "id": 1505,
+                "id": 1504,
                 "name": "Vidalia, Vidalia Municipal Airport, GA"
             }
         },
@@ -22602,7 +22587,7 @@
             "type": "Feature",
             "properties": {
                 "kind": "station",
-                "id": 1506,
+                "id": 1505,
                 "name": "Philadelphia, Philadelphia International Airport, PA"
             }
         },
@@ -22617,7 +22602,7 @@
             "type": "Feature",
             "properties": {
                 "kind": "station",
-                "id": 1507,
+                "id": 1506,
                 "name": "St. Clair County International, MI"
             }
         },
@@ -22632,7 +22617,7 @@
             "type": "Feature",
             "properties": {
                 "kind": "station",
-                "id": 1508,
+                "id": 1507,
                 "name": "Alpine, Alpine-Casparis Municipal Airport, TX"
             }
         },
@@ -22647,7 +22632,7 @@
             "type": "Feature",
             "properties": {
                 "kind": "station",
-                "id": 1509,
+                "id": 1508,
                 "name": "Warner Robins Air Force Base, GA"
             }
         },
@@ -22662,7 +22647,7 @@
             "type": "Feature",
             "properties": {
                 "kind": "station",
-                "id": 1510,
+                "id": 1509,
                 "name": "Worland, Worland Municipal Airport, WY"
             }
         },
@@ -22677,7 +22662,7 @@
             "type": "Feature",
             "properties": {
                 "kind": "station",
-                "id": 1511,
+                "id": 1510,
                 "name": "Mcguire Air Force Base, NJ"
             }
         },
@@ -22692,7 +22677,7 @@
             "type": "Feature",
             "properties": {
                 "kind": "station",
-                "id": 1512,
+                "id": 1511,
                 "name": "Tonopah, Tonopah Airport, NV"
             }
         },
@@ -22707,7 +22692,7 @@
             "type": "Feature",
             "properties": {
                 "kind": "station",
-                "id": 1513,
+                "id": 1512,
                 "name": "Temple / Miller Automatic Weather Observing / Reporting System, TX"
             }
         },
@@ -22722,7 +22707,7 @@
             "type": "Feature",
             "properties": {
                 "kind": "station",
-                "id": 1514,
+                "id": 1513,
                 "name": "Tampa, Tampa International Airport, FL"
             }
         },
@@ -22737,7 +22722,7 @@
             "type": "Feature",
             "properties": {
                 "kind": "station",
-                "id": 1515,
+                "id": 1514,
                 "name": "Imperial, Imperial County Airport, CA"
             }
         },
@@ -22752,7 +22737,7 @@
             "type": "Feature",
             "properties": {
                 "kind": "station",
-                "id": 1516,
+                "id": 1515,
                 "name": "Aurora, Aurora Municipal Airport, IL"
             }
         },
@@ -22767,7 +22752,7 @@
             "type": "Feature",
             "properties": {
                 "kind": "station",
-                "id": 1517,
+                "id": 1516,
                 "name": "Minocqua / Woodruff, WI"
             }
         },
@@ -22782,7 +22767,7 @@
             "type": "Feature",
             "properties": {
                 "kind": "station",
-                "id": 1518,
+                "id": 1517,
                 "name": "Watertown, Watertown International Airport, NY"
             }
         },
@@ -22797,7 +22782,7 @@
             "type": "Feature",
             "properties": {
                 "kind": "station",
-                "id": 1519,
+                "id": 1518,
                 "name": "Frankfort, Capital City Airport, KY"
             }
         },
@@ -22812,7 +22797,7 @@
             "type": "Feature",
             "properties": {
                 "kind": "station",
-                "id": 1520,
+                "id": 1519,
                 "name": "Las Cruces, Las Cruces International Airport, NM"
             }
         },
@@ -22827,7 +22812,7 @@
             "type": "Feature",
             "properties": {
                 "kind": "station",
-                "id": 1521,
+                "id": 1520,
                 "name": "New Haven, Tweed-New Haven Airport, CT"
             }
         },
@@ -22842,7 +22827,7 @@
             "type": "Feature",
             "properties": {
                 "kind": "station",
-                "id": 1522,
+                "id": 1521,
                 "name": "Ann Arbor, Ann Arbor Municipal Airport, MI"
             }
         },
@@ -22857,7 +22842,7 @@
             "type": "Feature",
             "properties": {
                 "kind": "station",
-                "id": 1523,
+                "id": 1522,
                 "name": "Dayton / Wright-Patterson Air Force Base, OH"
             }
         },
@@ -22872,23 +22857,8 @@
             "type": "Feature",
             "properties": {
                 "kind": "station",
-                "id": 1524,
+                "id": 1523,
                 "name": "New Iberia, Acadiana Regional Airport, LA"
-            }
-        },
-        {
-            "geometry": {
-                "type": "Point",
-                "coordinates": [
-                    -90.91666666666667,
-                    36.13333333333333
-                ]
-            },
-            "type": "Feature",
-            "properties": {
-                "kind": "station",
-                "id": 1525,
-                "name": "Walnut Ridge Automatic Weather Observing / Reporting System , AR"
             }
         },
         {
@@ -22902,7 +22872,7 @@
             "type": "Feature",
             "properties": {
                 "kind": "station",
-                "id": 1526,
+                "id": 1524,
                 "name": "Atlanta, Peachtree City-Falcon Field, GA"
             }
         },
@@ -22917,7 +22887,7 @@
             "type": "Feature",
             "properties": {
                 "kind": "station",
-                "id": 1527,
+                "id": 1525,
                 "name": "Wichita Falls, Sheppard Air Force Base, TX"
             }
         },
@@ -22932,7 +22902,7 @@
             "type": "Feature",
             "properties": {
                 "kind": "station",
-                "id": 1528,
+                "id": 1526,
                 "name": "Beverly, Beverly Municipal Airport, MA"
             }
         },
@@ -22947,7 +22917,7 @@
             "type": "Feature",
             "properties": {
                 "kind": "station",
-                "id": 1529,
+                "id": 1527,
                 "name": "Batesville Automatic Weather Observing / Reporting System, AR"
             }
         },
@@ -22962,7 +22932,7 @@
             "type": "Feature",
             "properties": {
                 "kind": "station",
-                "id": 1530,
+                "id": 1528,
                 "name": "Devils Lake Automatic Weather Observing / Reporting System, ND"
             }
         },
@@ -22977,7 +22947,7 @@
             "type": "Feature",
             "properties": {
                 "kind": "station",
-                "id": 1531,
+                "id": 1529,
                 "name": "Burlington/Mount Vernon, Skagit Regional Airport, WA"
             }
         },
@@ -22992,7 +22962,7 @@
             "type": "Feature",
             "properties": {
                 "kind": "station",
-                "id": 1532,
+                "id": 1530,
                 "name": "Beaver Falls Airport, PA"
             }
         },
@@ -23007,7 +22977,7 @@
             "type": "Feature",
             "properties": {
                 "kind": "station",
-                "id": 1533,
+                "id": 1531,
                 "name": "Bartlesville, Bartlesville Municipal Airport, OK"
             }
         },
@@ -23022,7 +22992,7 @@
             "type": "Feature",
             "properties": {
                 "kind": "station",
-                "id": 1534,
+                "id": 1532,
                 "name": "Albion, Albion Municipal Airport, NE"
             }
         },
@@ -23037,7 +23007,7 @@
             "type": "Feature",
             "properties": {
                 "kind": "station",
-                "id": 1535,
+                "id": 1533,
                 "name": "Phoenix, Phoenix-Deer Valley Municipal Airport, AZ"
             }
         },
@@ -23052,7 +23022,7 @@
             "type": "Feature",
             "properties": {
                 "kind": "station",
-                "id": 1536,
+                "id": 1534,
                 "name": "Boothville, LA"
             }
         },
@@ -23067,7 +23037,7 @@
             "type": "Feature",
             "properties": {
                 "kind": "station",
-                "id": 1537,
+                "id": 1535,
                 "name": "Seward, AK"
             }
         },
@@ -23082,7 +23052,7 @@
             "type": "Feature",
             "properties": {
                 "kind": "station",
-                "id": 1538,
+                "id": 1536,
                 "name": "Greenwood, Greenwood County Airport, SC"
             }
         },
@@ -23097,7 +23067,7 @@
             "type": "Feature",
             "properties": {
                 "kind": "station",
-                "id": 1539,
+                "id": 1537,
                 "name": "Fort Lewis / Gray U. S. Army Airfield, WA"
             }
         },
@@ -23112,7 +23082,7 @@
             "type": "Feature",
             "properties": {
                 "kind": "station",
-                "id": 1540,
+                "id": 1538,
                 "name": "Green Bay, Austin Straubel International Airport, WI"
             }
         },
@@ -23127,7 +23097,7 @@
             "type": "Feature",
             "properties": {
                 "kind": "station",
-                "id": 1541,
+                "id": 1539,
                 "name": "Grand Island, Central Nebraska Regional Airport, NE"
             }
         },
@@ -23142,7 +23112,7 @@
             "type": "Feature",
             "properties": {
                 "kind": "station",
-                "id": 1542,
+                "id": 1540,
                 "name": "Fort Hood / Gray U. S. Army Airfield, TX"
             }
         },
@@ -23157,7 +23127,7 @@
             "type": "Feature",
             "properties": {
                 "kind": "station",
-                "id": 1543,
+                "id": 1541,
                 "name": "Grand Rapids, Gerald R. Ford International Airport, MI"
             }
         }
