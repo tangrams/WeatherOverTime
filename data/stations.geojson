@@ -3170,15 +3170,15 @@
             "geometry": {
                 "type": "Point",
                 "coordinates": [
-                    -97.96611111111112,
-                    35.096111111111114
+                    -84.67416666666666,
+                    44.35111111111111
                 ]
             },
             "type": "Feature",
             "properties": {
                 "kind": "station",
                 "id": 211,
-                "name": "Chickasha, Chickasha Municipal Airport, OK"
+                "name": "Houghton Lake, Roscommon County Airport, MI"
             }
         },
         {
@@ -16220,15 +16220,15 @@
             "geometry": {
                 "type": "Point",
                 "coordinates": [
-                    -84.67416666666666,
-                    44.35111111111111
+                    -97.96611111111112,
+                    35.096111111111114
                 ]
             },
             "type": "Feature",
             "properties": {
                 "kind": "station",
                 "id": 1081,
-                "name": "Houghton Lake, Roscommon County Airport, MI"
+                "name": "Chickasha, Chickasha Municipal Airport, OK"
             }
         },
         {
