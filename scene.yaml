@@ -1,23 +1,29 @@
 ﻿# Author: Paitricio Gonzalez Vivo @patricio 2016
 import:
-    - http://tangrams.github.io/blocks/color/tools.yaml
-    - http://tangrams.github.io/blocks/functions/map.yaml
+    - http://tangrams.github.io/blocks/global.yaml
+    - http://tangrams.github.io/blocks/functions/zoom.yaml
     - http://tangrams.github.io/blocks/functions/aastep.yaml
     - http://tangrams.github.io/blocks/geometry/matrices.yaml
     - http://tangrams.github.io/blocks/patterns/grid.yaml
     - http://tangrams.github.io/blocks/shapes/cross.yaml
+    - https://tangrams.github.io/blocks/elevation/stripes.yaml
+    - https://tangrams.github.io/blocks/elevation/normal.yaml
+    - https://tangrams.github.io/blocks/lines/dots.yaml
 
 sources:
-    osm:
+    mapzen:
         type: TopoJSON
-        url:  https://vector.mapzen.com/osm/all/{z}/{x}/{y}.topojson?api_key=vector-tiles-Nhm6Mkg
-        rasters: [elevation]
+        url: https://tile.mapzen.com/mapzen/vector/v1/all/{z}/{x}/{y}.topojson?api_key=mapzen-YoRQaZF
+        rasters: [normals-elevation]
+        max_zoom: 16
+    normals-elevation:
+        type: Raster
+        url: https://tile.mapzen.com/mapzen/terrain/v1/normal/{z}/{x}/{y}.png?api_key=mapzen-YoRQaZF
+        max_zoom: 15
     stations:
         type: GeoJSON
         url:   data/stations.geojson
-    elevation:
-        type: Raster
-        url: http://c.tile.stamen.com/terrain-background/{z}/{x}/{y}.jpg
+
 textures:
     data_image:
         url: data/data.png
@@ -36,64 +42,65 @@ cameras:
 scene:
     background: 
         color: [0.078,0.075,0.102]
+
 layers:
     earth:
-        data: { source: osm }
+        data: { source: mapzen }
         draw:
-            elevation:
-                order: function() { return feature.sort_key; }
+            earth:
+                order: global.order
                 color: [0.388,0.408,0.431]
     water:
-        data: { source: osm }
+        data: { source: mapzen }
         draw:
             water:
-                order: function() { return feature.sort_key; }
+                order: global.order
                 color: [0.079, 0.077, 0.105]
     landuse:
-        data: { source: osm }
+        data: { source: mapzen }
         draw:
-            area:
-                order: function() { return feature.sort_key; }
+            landuse:
+                order: global.order
                 color: [0.676, 0.802, 0.810]
     boundaries:
-        data: { source: osm }
+        data: { source: mapzen }
         filter: { $zoom: {max: 9}}
         draw:
-            dots-lines:
-                order: function() { return feature.sort_key; }
+            lines-dots:
+                order: global.order
                 color: [0.800, 0.759, 0.743]
                 width: 4px
     roads:
-        data: { source: osm, layer: roads }
+        data: { source: mapzen, layer: roads }
         filter: { $zoom: {min: 7}, not: { kind: [rail, ferry] } }
         draw:
             lines:
-                order: function() { return feature.sort_key; }
+                order: global.order
                 color: [0.988, 0.929, 0.970]
                 width: [[7,0.0px], [10, .5px], [15, .75px], [17, 5m]]
         highway:
             filter: { kind: highway }
             draw:
                 lines:
-                    order: function() { return feature.sort_key; }
+                    order: global.order
                     color: [0.680, 0.244, 0.432]
                     width: [[8,0px], [8,.25px], [11, 1.5px], [14, 2px], [16, 4px], [17, 10m]]
             link:
-                filter: { is_link: yes } # on- and off-ramps, etc
+                filter: { is_link: true } # on- and off-ramps, etc
                 draw:
                     lines:
                         color: [0.625, 0.534, 0.650]
                         width: [[8,0px], [14, 3px], [16, 5px], [18, 10m]]
                 tunnel-link:
-                    filter: {is_tunnel: yes, $zoom: {min: 13} }
+                    filter: {is_tunnel: true, $zoom: {min: 13} }
                     draw:
                         lines:
                             color: [0.369, 0.203, 0.272]
         tunnel:
-            filter: {is_tunnel: yes }
+            filter: {is_tunnel: true }
             draw:
                 lines:
-                    order: function() { return feature.sort_key; }
+                    order: global.order
                     color: [0.286, 0.322, 0.325]
         airport-lines:
             filter: { kind: minor_road, aeroway: [runway,taxiway] }
@@ -131,7 +138,8 @@ layers:
     station:
         data: { source: stations }            
         draw:
-            wind:
+            points:
+                style: wind
                 interactive: true
                 collide: false
                 blend: overlay
@@ -142,34 +150,17 @@ layers:
                         var hovered = feature.id === global.hovered ? 1 : 0;
                         return [ ( Math.floor(feature.id/255))/255, (feature.id%255)/255, hovered ]; 
                     }
-        label:
-            filter: { $zoom: { min: 9 } }
-            draw:
-                text:
-                    blend_order: 0
-                    offset: [0,-60px]
-                    font:
-                        family: Helvetica
-                        size: 14px
-                        weight: 100
-                        fill: white
-                        stroke: { color: [0.055, 0.055, 0.055], width: 5 }
+            text:
+                # buffer: 3px
+                offset: [0,60px]
+                font:
+                    family: Helvetica
+                    size: 10px
+                    weight: 100
+                    fill: white
+                    # stroke: { color: [0.055, 0.055, 0.055], width: 5 }
+
 styles:
-# ----------------------- 
-    dots-lines:
-        base: lines
-        mix: functions-map
-        lighting: false
-        texcoords: true
-        blend: overlay
-        shaders:
-            defines:
-                dotSize: .05
-            blocks:
-                color: |
-                    vec2 st = fract(v_texcoord.xy);
-                    st -= .5;
-                    color.a = 1.- step(dotSize, dot(st,st)*2.);
     water:
         base: polygons
         mix: [patterns-grid]
@@ -177,44 +168,31 @@ styles:
             blocks:
                 color: |
                     color.rgb += tileGrid()*0.4;
-    elevation:
+    earth:
         base: polygons
-        mix: [color-tools, functions-map]
-        raster: custom
-        shaders: 
-            blocks:
-                color: |
-                    float z = 1.-map(u_map_position.z,7.,14.,0.,1.);
-                    float b = sampleRaster(0).b+clamp(z*z,0.,0.524);
-                    if (b != 0.0) {
-                        color.rgb = mix(vec3(0.000,0.000,0.000), vec3(0.389,0.408,0.430), smoothstep(0.564,1.,b));
-                    }
-    area:
+        mix: [elevation-normal]
+
+    landuse:
         base: polygons
-        mix: [geometry-matrices, functions-map, functions-aastep, space-tile]
-        blend: inlay
-        shaders: 
-            blocks: 
-                global: |
-                    float stripes(vec2 st, float width){
-                        st = rotate2D(0.78539816339)*st;
-                        st *= 29.7;
-                        return aastep(.5+width*0.5,abs(sin(st.y*3.14159265358)));
-                    }
-                filter: |
-                    vec2 st = getTileCoords()*2.;
-                    float pct = map(u_map_position.z,1.,15.,2.0,0., true);
-                    color.a = stripes(st,1.-pct*pct)*.25;
+        mix: [functions-zoom, elevation-stripes]
+        shaders:
+            defines:
+                ZOOM_START: 0.
+                ZOOM_END: 13.
+                STRIPES_ALPHA: .5
+                STRIPES_SCALE: 70.
+                STRIPES_DIR: vec3(-0.600,-0.420,0.560)
+                STRIPES_PCT: 1.8
+                STRIPES_WIDTH: mix( (1.-zoom()),
+                                    dot((sampleRaster(int(NORMAL_TEXTURE_INDEX)).rgb-.5)*2.,
+                                        STRIPES_DIR),
+                                    zoom())*STRIPES_PCT
     wind:
         base: points
         texcoords: true
         animated: true
         mix: [functions-aastep, geometry-matrices, shapes-cross]
         shaders:
-            defines:
-                TWO_PI: 6.283185307
-                PI: 3.1415926535897932384626433832795
-                HALF_PI: 1.5707963267948966192313216916398
             uniforms:
                 u_data: data_image
                 u_scale: scale_image
