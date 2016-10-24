@@ -122,10 +122,8 @@ function init() {
     displayContainer = document.getElementById('display');
     displayContainer.style.visibility = 'hidden';
 
-    // Init the feature selection
-    map.getContainer().addEventListener('click', function (event) {
-        var pixel = { x: event.clientX, y: event.clientY };
-        scene.getFeatureAt(pixel).then( function (selection) {
+    layer.setSelectionEvents({
+        click: function(selection) {
             if (selection.feature && selected !== selection.feature.properties.id) {
                 selected = selection.feature.properties.id;
                 scene.config.global.hovered = selected;
@@ -142,7 +140,7 @@ function init() {
                 scene.rebuild();
                 displayContainer.style.visibility = 'hidden';
             }
-        });
+        }
     });
 }
 
