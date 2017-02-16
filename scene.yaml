@@ -250,7 +250,7 @@ styles:
 
                     // Arrow
                     float scale = .5;
-                    vec2 arrow_st = .5 + (rotate2D(w_deg) * (st - .5));
+                    vec2 arrow_st = rotate2D(st, w_deg);
                     arrow_st *= vec2(scale+.5,.5);
                     float d = shape(arrow_st + vec2(scale*-.5+.25,.3),3) / shape(arrow_st + vec2(scale*-.5+.25,1.132),3);
                     color = texture2D(u_scale,vec2(1.-temp,.5));
