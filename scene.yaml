@@ -1,28 +1,25 @@
 ﻿# Author: Paitricio Gonzalez Vivo @patricio 2016
 import:
-    - http://tangrams.github.io/blocks/global.yaml
-    - http://tangrams.github.io/blocks/functions/zoom.yaml
-    - http://tangrams.github.io/blocks/functions/aastep.yaml
-    - http://tangrams.github.io/blocks/geometry/matrices.yaml
-    - http://tangrams.github.io/blocks/patterns/grid.yaml
-    - http://tangrams.github.io/blocks/shapes/cross.yaml
+    - https://tangrams.github.io/blocks/global.yaml
+    - https://tangrams.github.io/blocks/functions/zoom.yaml
+    - https://tangrams.github.io/blocks/functions/aastep.yaml
+    - https://tangrams.github.io/blocks/geometry/matrices.yaml
+    - https://tangrams.github.io/blocks/patterns/grid.yaml
+    - https://tangrams.github.io/blocks/shapes/cross.yaml
     - https://tangrams.github.io/blocks/elevation/stripes.yaml
     - https://tangrams.github.io/blocks/elevation/normal.yaml
     - https://tangrams.github.io/blocks/lines/dots.yaml
 
 sources:
     mapzen:
-        type: TopoJSON
-        url: https://tile.mapzen.com/mapzen/vector/v1/all/{z}/{x}/{y}.topojson
-        url_params:
-            api_key: mapzen-YoRQaZF
+        type: MVT
+        url: https://tile.nextzen.org/tilezen/vector/v1/512/all/{z}/{x}/{y}.mvt?api_key=hx2J5tx6QDS1Pnhu8r97JQ
         rasters: [normals-elevation]
         max_zoom: 16
     normals-elevation:
         type: Raster
-        url: https://tile.mapzen.com/mapzen/terrain/v1/normal/{z}/{x}/{y}.png
+        url: https://tile.nextzen.org/tilezen/terrain/v1/normal/{z}/{x}/{y}.png?api_key=hx2J5tx6QDS1Pnhu8r97JQ
         url_params:
-            api_key: mapzen-YoRQaZF
         max_zoom: 15
     stations:
         type: GeoJSON
@@ -44,7 +41,7 @@ cameras:
     perspective:
         type: perspective
 scene:
-    background: 
+    background:
         color: [0.078,0.075,0.102]
 
 layers:
@@ -140,7 +137,7 @@ layers:
                         lines:
                             visible: false
     station:
-        data: { source: stations }            
+        data: { source: stations }
         draw:
             points:
                 style: wind
@@ -152,7 +149,7 @@ layers:
                 color: |
                     function() {
                         var hovered = feature.id === global.hovered ? 1 : 0;
-                        return [ ( Math.floor(feature.id/255))/255, (feature.id%255)/255, hovered ]; 
+                        return [ ( Math.floor(feature.id/255))/255, (feature.id%255)/255, hovered ];
                     }
             text:
                 # buffer: 3px
@@ -202,12 +199,12 @@ styles:
                 u_scale: scale_image
                 u_param: [812, 1599]
                 u_offset: 0
-            blocks: 
+            blocks:
                 global: |
                     float getIndex (vec2 encodedIndex) {
                         return (encodedIndex.x*65025.+encodedIndex.y*255.)+.5;
                     }
-                    
+
                     float shape(vec2 st, int N){
                         st = st *2.-1.;
                         float a = atan(st.x,st.y)+PI;
@@ -226,7 +223,7 @@ styles:
                     float index = getIndex(color.st);
                     float t = u_offset;
                     // t += fract(u_time);
-                    
+
                     color = vec4(0.);
                     float i_now = floor(t);
                     float f_now = fract(t);
@@ -247,10 +244,10 @@ styles:
                     float w_deg = mix(dir_now, dir_next, f_now)*-TWO_PI;
                     float w_speed = data_interpol.g;
                     float temp = data_interpol.r;
-                    
+
                     vec2 st = v_texcoord.xy;
                     float valid = smoothstep(0.5,1.,data_interpol.a);
-                    
+
 
                     // Arrow
                     float scale = .5;
