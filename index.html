@@ -13,19 +13,19 @@
 
         <!-- 3rd party libraries -->
             <!-- Leaflet -->
-            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.1/leaflet.css" />
-            <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.1/leaflet.js"></script>
+            <link rel="stylesheet" href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css" />
+            <script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js"></script>
             <!-- bog-standard leaflet URL hash -->
-            <script type="text/javascript" src="https://cdn.rawgit.com/mlevans/leaflet-hash/master/leaflet-hash.js"></script>
+            <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-hash/0.2.1/leaflet-hash.js"></script>
             <!-- Main tangram library -->
-            <script type="text/javascript" src="https://mapzen.com/tangram/0.11/tangram.min.js"></script>
+            <script src="https://unpkg.com/tangram/dist/tangram.min.js"></script>
             <!-- wNumb -->
             <script src="lib/wNumb.js"></script>
             <!-- noUIslider -->
             <link href="lib/noUiSlider/nouislider.min.css" rel="stylesheet">
             <script src="lib/noUiSlider/nouislider.min.js"></script>
             <!-- GlslCanvas -->
-            <script src="http://patriciogonzalezvivo.com/glslCanvas/build/GlslCanvas.js"></script>
+            <script type="text/javascript" src="https://unpkg.com/glslCanvas/dist/GlslCanvas.js"></script>
 
             <!-- Jura Fonts -->
             <link href='https://fonts.googleapis.com/css?family=Jura:400,300,600,500&subset=latin,cyrillic-ext,greek,latin-ext,cyrillic' rel='stylesheet' type='text/css'>
@@ -157,16 +157,6 @@
         <!-- Adding a script block to post message to the parent container (think iframed demos) -->
         <script type="text/javascript">
             window.addEventListener("hashchange",function(){parent.postMessage(window.location.hash, "*")});
-        </script>
-
-        <!-- Mapzen map UI -->
-        <script src='https://mapzen.com/common/ui/mapzen-ui.min.js'></script>
-        <script>
-            MPZN.bug({
-                name: 'Tangram',
-                tweet: "Displaying data over time on @mapzen's @tangramJS using shaders by @patriciogv",
-                repo: 'https://github.com/tangrams/OWM'
-            });
         </script>
     </body>
 </html>
