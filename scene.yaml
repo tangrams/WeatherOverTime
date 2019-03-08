@@ -14,19 +14,21 @@ sources:
     mapzen:
         type: MVT
         url: https://tile.nextzen.org/tilezen/vector/v1/512/all/{z}/{x}/{y}.mvt
-        rasters: [normals-elevation]
+        tile_size: 512
         max_zoom: 16
         url_params:
             api_key: hx2J5tx6QDS1Pnhu8r97JQ
+        rasters: [normals-elevation]
     normals-elevation:
         type: Raster
-        url: https://tile.nextzen.org/tilezen/terrain/v1/normal/{z}/{x}/{y}.png
+        url: https://tile.nextzen.org/tilezen/terrain/v1/512/normal/{z}/{x}/{y}.png
         url_params:
             api_key: hx2J5tx6QDS1Pnhu8r97JQ
-        max_zoom: 15
+        tile_size: 512
+        max_zoom: 14
     stations:
         type: GeoJSON
-        url:   data/stations.geojson
+        url: data/stations.geojson
 
 textures:
     data_image:
