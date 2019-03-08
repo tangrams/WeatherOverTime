@@ -136,7 +136,7 @@ function init() {
             }
             else if (!selection.feature && selected !== -1) {
                 selected = -1;
-                scene.config.layers.station.properties.hovered = selected;
+                scene.config.global.hovered = selected;
                 scene.rebuild();
                 displayContainer.style.visibility = 'hidden';
             }
