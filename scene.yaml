@@ -47,7 +47,7 @@ cameras:
         type: perspective
 scene:
     background:
-        color: [0.078,0.075,0.102]
+        color: [0.388,0.408,0.431]
 
 layers:
     earth:
