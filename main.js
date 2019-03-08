@@ -134,7 +134,7 @@ function init() {
                 display.setUniform('u_id',selection.feature.properties.id)
                 display.canvas.style.height = "50px";
             }
-            else if (selected && scene.config.layers.station.properties && selected !== -1) {
+            else if (!selection.feature && selected !== -1) {
                 selected = -1;
                 scene.config.layers.station.properties.hovered = selected;
                 scene.rebuild();
