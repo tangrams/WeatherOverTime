@@ -157,8 +157,10 @@ layers:
                         return [ ( Math.floor(feature.id/255))/255, (feature.id%255)/255, hovered ];
                     }
             text:
-                # buffer: 3px
-                offset: [0,60px]
+                buffer: 10px
+                offset: [0, 30px]
+                priority: 1
+                blend_order: 1
                 font:
                     family: Helvetica
                     size: 10px
